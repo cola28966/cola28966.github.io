@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
 <meta property="article:published_time" content="2020-02-04T11:39:00.000Z">
-<meta property="article:modified_time" content="2020-02-04T14:11:29.865Z">
+<meta property="article:modified_time" content="2020-02-04T14:19:44.307Z">
 <meta property="article:author" content="cola289">
 <meta property="article:tag" content="多线程">
 <meta name="twitter:card" content="summary">
@@ -160,8 +160,12 @@
 <a id="more"></a>
 
 <p>首先需要了解Executor框架中几个比较重要的类和接口</p>
-<h4 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h4><p>Callable是一个接口，只声明了一个call方法</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><br>public interface Callable&lt;V&gt; &#123;<br>    V call() throws Exception;<br>&#125;<br><br><br>```  <br><br>Callable和Runable类型，只不过Callable有返回值，返回类型和参数类型一致。   <br><br><br> <br>#### Future<br><br><br>Future对具体提交的Callable任务执行结果进行取消，查询是否完成，获取结果。可以通过get方法获取执行结果，该方法会阻塞直到任务返回结果。<br><br>```java<br>public interface Future&lt;V&gt; &#123;<br>        V get() throws InterruptedException, ExecutionException;<br>        V get(long timeout, TimeUnit unit)<br>                throws InterruptedException, ExecutionException, TimeoutException;<br>        boolean cancel(boolean mayInterruptIfRunning);<br>        boolean isCancelled();<br>        boolean isDone();<br><br>    &#125;<br></code></pre></td></tr></table></figure>
+<h3 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h3><p>Callable是一个接口，只声明了一个call方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Callable</span>&lt;<span class="hljs-title">V</span>&gt; </span>&#123;<br>    <span class="hljs-function">V <span class="hljs-title">call</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Callable和Runable类型，只不过Callable有返回值，返回类型和参数类型一致。   </p>
+<h3 id="Future"><a href="#Future" class="headerlink" title="Future"></a><strong>Future</strong></h3><p>Future对具体提交的Callable任务执行结果进行取消，查询是否完成，获取结果。可以通过get方法获取执行结果，该方法会阻塞直到任务返回结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Future</span>&lt;<span class="hljs-title">V</span>&gt; </span>&#123;<br>        <span class="hljs-function">V <span class="hljs-title">get</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException, ExecutionException</span>;<br>        <span class="hljs-function">V <span class="hljs-title">get</span><span class="hljs-params">(<span class="hljs-keyword">long</span> timeout, TimeUnit unit)</span><br>                <span class="hljs-keyword">throws</span> InterruptedException, ExecutionException, TimeoutException</span>;<br>        <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">cancel</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> mayInterruptIfRunning)</span></span>;<br>        <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isCancelled</span><span class="hljs-params">()</span></span>;<br>        <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isDone</span><span class="hljs-params">()</span></span>;<br><br>    &#125;<br></code></pre></td></tr></table></figure>
 
 <p>Future中的五个方法</p>
 <ul>
@@ -171,19 +175,19 @@
 <li>boolean isCancelled()方法：如果任务在完成之前被取消，则返回true</li>
 <li>boolean isDone()方法：如果任务结束，无论是正常完成、中途取消，还是发生异常，则返回true。</li>
 </ul>
-<h4 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h4><p>Executor是一个接口，它将任务的提交与任务的执行分离开来，定义了一个接收Runnable对象的方法execute。Executor是Executor框架中最基础的一个接口，类似于集合中的Collection接口。  </p>
+<h3 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h3><p>Executor是一个接口，它将任务的提交与任务的执行分离开来，定义了一个接收Runnable对象的方法execute。Executor是Executor框架中最基础的一个接口，类似于集合中的Collection接口。  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Executor</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">(Runnable command)</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h4 id="ExecutorService"><a href="#ExecutorService" class="headerlink" title="ExecutorService"></a>ExecutorService</h4><p>ExecutorService继承了Executor,是线程池服务<br>ExecutorService中的方法：</p>
+<h3 id="ExecutorService"><a href="#ExecutorService" class="headerlink" title="ExecutorService"></a>ExecutorService</h3><p>ExecutorService继承了Executor,是线程池服务<br>ExecutorService中的方法：</p>
 <ul>
 <li>Future<T> submit(Callable<T> task)方法：调用submit时会得到一个Future对象用来得到结果或者取消任务</li>
 <li>Future&lt;?&gt; submit(Runnable task)方法：得到Future对象，但是get方法在完成的时候返回指定的result对象</li>
 <li>Future<T> submit(Runnable task, T result)方法：得到Future对象，get方法在完成的时候返回指定的result对象</li>
 <li>void shutdown()方法 使用完一个线程池时，可以调用，启动线程池的关闭序列。完成已经提交的任务但不在接受新的任务</li>
 </ul>
-<h4 id="Executors"><a href="#Executors" class="headerlink" title="Executors"></a>Executors</h4><p>Executors类中有许多静态工厂方法，用来构造线程池。<br>Executors.newCachedThreadPool/newFixedThreadPool 创建线程池<br>这两个方法返回的是实现ExecutorService接口的ThreadPoolExecutor</p>
+<h3 id="Executors"><a href="#Executors" class="headerlink" title="Executors"></a>Executors</h3><p>Executors类中有许多静态工厂方法，用来构造线程池。<br>Executors.newCachedThreadPool/newFixedThreadPool 创建线程池<br>这两个方法返回的是实现ExecutorService接口的ThreadPoolExecutor</p>
 <p><strong>newCachedThreadPool</strong>方法构造一个线程池是，会立即执行各个任务，空闲进程会保留60秒，如果有空线程可用，就使用空线程执行任务，如果没有，则创建一个。<br><strong>newFixedThreadPool</strong>会创建一个固定大小的线程池，空线程会一直保留。<br>如果线程生成周期很短，或者大量时间都在阻塞，应使用newCachedThreadPool创建线程池。<br>如果线程工作量大而且并不阻塞，<br>为了得到最优的运行速度，并发线程数应该等于处理器内核数，应使用newFixedThreadPool</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>使用连接池时所用的工作</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>使用连接池时所用的工作</p>
 <ol>
 <li>调用Executors类中的静态方法 newCachedThreadPool或者newFixedThreadPool</li>
 <li>调用submit提交Runnable或者Callable对象</li>
