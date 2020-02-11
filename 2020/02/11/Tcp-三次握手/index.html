@@ -7,21 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Java多线程(一) - Hexo</title>
+<title>Tcp 三次握手 - Hexo</title>
 
 
-    <meta name="description" content="一 进程和线程的定义和区别进程： 每个独立执行的任务就是一个进程线程：一个程序可以包括多个子任务，可窜&#x2F;并行，每个子任务可以称为一个线程，线程是进程的一部分。  多线程vs多进程 线程数据共享 线程通讯更高效 线程更清量级，更容易切换 多个线程更容易管理">
+    <meta name="description" content="TCP采用三次握手来建立一个连接 位码SYN(synchronous建立联机)ACK(acknowledgement 确认)PSH(push传送)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java多线程(一)">
-<meta property="og:url" content="http://yoursite.com/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(1)/index.html">
+<meta property="og:title" content="Tcp 三次握手">
+<meta property="og:url" content="http://yoursite.com/2020/02/11/Tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="一 进程和线程的定义和区别进程： 每个独立执行的任务就是一个进程线程：一个程序可以包括多个子任务，可窜&#x2F;并行，每个子任务可以称为一个线程，线程是进程的一部分。  多线程vs多进程 线程数据共享 线程通讯更高效 线程更清量级，更容易切换 多个线程更容易管理">
+<meta property="og:description" content="TCP采用三次握手来建立一个连接 位码SYN(synchronous建立联机)ACK(acknowledgement 确认)PSH(push传送)">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
-<meta property="article:published_time" content="2020-02-01T03:10:00.000Z">
-<meta property="article:modified_time" content="2020-02-02T06:31:20.051Z">
+<meta property="article:published_time" content="2020-02-11T13:25:00.000Z">
+<meta property="article:modified_time" content="2020-02-11T15:33:33.320Z">
 <meta property="article:author" content="cola289">
-<meta property="article:tag" content="多线程">
+<meta property="article:tag" content="TCP">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -81,7 +81,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Java多线程(一)" height="28">
+                <img src="/images/logo.svg" alt="Tcp 三次握手" height="28">
             
             </a>
         </div>
@@ -137,13 +137,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-01T03:10:00.000Z">2020-02-01</time>
+                <time class="level-item has-text-grey" datetime="2020-02-11T13:25:00.000Z">2020-02-11</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分钟 读完 (大约 374 个字)
+                    3 分钟 读完 (大约 376 个字)
                 </span>
                 
                 
@@ -152,68 +152,28 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Java多线程(一)
+                Tcp 三次握手
             
         </h1>
         <div class="content">
-            <h3 id="一-进程和线程的定义和区别"><a href="#一-进程和线程的定义和区别" class="headerlink" title="一 进程和线程的定义和区别"></a>一 进程和线程的定义和区别</h3><p>进程： 每个独立执行的任务就是一个进程<br>线程：一个程序可以包括多个子任务，可窜/并行，每个子任务<br>可以称为一个线程，线程是进程的一部分。</p>
-<ul>
-<li>多线程vs多进程<ul>
-<li>线程数据共享</li>
-<li>线程通讯更高效</li>
-<li>线程更清量级，更容易切换</li>
-<li>多个线程更容易管理  </li>
-</ul>
-</li>
-</ul>
+            <p>TCP采用三次握手来建立一个连接</p>
+<h3 id="位码"><a href="#位码" class="headerlink" title="位码"></a>位码</h3><p>SYN(synchronous建立联机)<br>ACK(acknowledgement 确认)<br>PSH(push传送)</p>
 <a id="more"></a>
-<h3 id="二-多线程的创建"><a href="#二-多线程的创建" class="headerlink" title="二 多线程的创建"></a>二 多线程的创建</h3><p>Java 的四个主要接口：  </p>
-<ul>
-<li>Cloneable， 用于对象克隆</li>
-<li>Comparable，用于对象比较</li>
-<li>Serializeble，用于对象序列化</li>
-<li>Runnable，用于对象线程化</li>
-</ul>
-<p>创建方式</p>
-<ul>
-<li>java.lang.Thread<ul>
-<li>线程继承Thread类，实现run方法</li>
-</ul>
-</li>
-</ul>
-<p>代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">"hello"</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>java.lang.Runnable接口<ul>
-<li>线程实现Runnable接口，实现run方法</li>
-</ul>
-</li>
-</ul>
-<p>代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span></span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">"hello"</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>FIN(finish结束)<br>RST(reset重置)<br>URG(urgent紧急)<br>Sequence number(顺序号码)<br>Acknowledge number(确认号码)</p>
+<h3 id="三次握手的过程"><a href="#三次握手的过程" class="headerlink" title="三次握手的过程"></a>三次握手的过程</h3><p>第一步  </p>
+<p>客户端向服务器发送位码为SYN=1，同时随机生成一个Seq number的数据包到服务器。<br>发送完毕后，客户端进入 SYN_SEND 状态。  </p>
+<p>第二步  </p>
+<p>服务器收到连接S请求报文段后，向客户端发送位码ACK=1和一个生成的Ack number，Ack number的值为服务器接收到客户端发送的Seq number的值加1，同样服务器需要向发送建立请求，服务器会发送位码为SYN=1，同时随机生成一个Seq number的数据包到客户端。 发送完毕后，服务器端进入 SYN_RCVD 状态。  </p>
+<p>第三步  </p>
+<p>客户端收到服务器的Ack number后会检验，即第一次发送的Seq number+1以及ACK位码是否为1，若正确则向服务器发送位码ACK=1和一个Ack number,Ack number的值为从服务器接收到的Seq number的值加1。发送完毕后，客户端进入 ESTABLISHED 状态,服务器收到后检验是否正确，如果正确的话，连接建立成功。当服务器端接收到这个包时，也进入 ESTABLISHED 状态，TCP 握手结束。</p>
 
-<p>Thread方式 </p>
-<ul>
-<li>可以通过继承Thread类来创建线程 </li>
-<li>通过start方法来启动线程的run方法</li>
-</ul>
-<p>代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">"hello"</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">new</span> ThreadDemo1().start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>Runable方式：</p>
-<ul>
-<li>可以通过实现Runnable接口来创建线程 </li>
-<li>实现Runnable的对象必须包装在Thread类里面，才可以启动 </li>
-<li>通过start方法来启动线程的run方法</li>
-</ul>
-<p>代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span></span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">"hello"</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> ThreadDemo2()).start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
         </div>
         
         <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a>
+                    <a class="has-link-grey -link" href="/tags/TCP/" rel="tag">TCP</a>
                 </div>
             </div>
         </div>
@@ -239,13 +199,13 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%BA%8C-1/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Java多线程(二)</span>
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/04/Java%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6Executor/">
+                <span class="level-item">Java并发框架Executor</span>
+                <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
-        
         
     </div>
 </div>
@@ -559,7 +519,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Java多线程(一)" height="28">
+                    <img src="/images/logo.svg" alt="Tcp 三次握手" height="28">
                 
                 </a>
                 <p class="is-size-7">

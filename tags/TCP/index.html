@@ -7,21 +7,16 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Java多线程(一) - Hexo</title>
+<title>标签: TCP - Hexo</title>
 
 
-    <meta name="description" content="一 进程和线程的定义和区别进程： 每个独立执行的任务就是一个进程线程：一个程序可以包括多个子任务，可窜&#x2F;并行，每个子任务可以称为一个线程，线程是进程的一部分。  多线程vs多进程 线程数据共享 线程通讯更高效 线程更清量级，更容易切换 多个线程更容易管理">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Java多线程(一)">
-<meta property="og:url" content="http://yoursite.com/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(1)/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/tags/TCP/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="一 进程和线程的定义和区别进程： 每个独立执行的任务就是一个进程线程：一个程序可以包括多个子任务，可窜&#x2F;并行，每个子任务可以称为一个线程，线程是进程的一部分。  多线程vs多进程 线程数据共享 线程通讯更高效 线程更清量级，更容易切换 多个线程更容易管理">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
-<meta property="article:published_time" content="2020-02-01T03:10:00.000Z">
-<meta property="article:modified_time" content="2020-02-02T06:31:20.051Z">
 <meta property="article:author" content="cola289">
-<meta property="article:tag" content="多线程">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -75,13 +70,13 @@
 
 <link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="is-2-column">
+<body class="is-3-column">
     <nav class="navbar navbar-main">
     <div class="container">
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Java多线程(一)" height="28">
+                <img src="/images/logo.svg" alt="Hexo" height="28">
             
             </a>
         </div>
@@ -130,20 +125,31 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-9-desktop is-9-widescreen has-order-2 column-main">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    <div class="card-content">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/tags">标签</a></li>
+            <li class="is-active"><a href="#" aria-current="page">TCP</a></li>
+        </ul>
+        </nav>
+    </div>
+</div>
+
+    
 <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-01T03:10:00.000Z">2020-02-01</time>
+                <time class="level-item has-text-grey" datetime="2020-02-11T13:25:00.000Z">2020-02-11</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分钟 读完 (大约 374 个字)
+                    3 分钟 读完 (大约 376 个字)
                 </span>
                 
                 
@@ -152,103 +158,32 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Java多线程(一)
+                <a class="has-link-black-ter" href="/2020/02/11/Tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">Tcp 三次握手</a>
             
         </h1>
         <div class="content">
-            <h3 id="一-进程和线程的定义和区别"><a href="#一-进程和线程的定义和区别" class="headerlink" title="一 进程和线程的定义和区别"></a>一 进程和线程的定义和区别</h3><p>进程： 每个独立执行的任务就是一个进程<br>线程：一个程序可以包括多个子任务，可窜/并行，每个子任务<br>可以称为一个线程，线程是进程的一部分。</p>
-<ul>
-<li>多线程vs多进程<ul>
-<li>线程数据共享</li>
-<li>线程通讯更高效</li>
-<li>线程更清量级，更容易切换</li>
-<li>多个线程更容易管理  </li>
-</ul>
-</li>
-</ul>
-<a id="more"></a>
-<h3 id="二-多线程的创建"><a href="#二-多线程的创建" class="headerlink" title="二 多线程的创建"></a>二 多线程的创建</h3><p>Java 的四个主要接口：  </p>
-<ul>
-<li>Cloneable， 用于对象克隆</li>
-<li>Comparable，用于对象比较</li>
-<li>Serializeble，用于对象序列化</li>
-<li>Runnable，用于对象线程化</li>
-</ul>
-<p>创建方式</p>
-<ul>
-<li>java.lang.Thread<ul>
-<li>线程继承Thread类，实现run方法</li>
-</ul>
-</li>
-</ul>
-<p>代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">"hello"</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>java.lang.Runnable接口<ul>
-<li>线程实现Runnable接口，实现run方法</li>
-</ul>
-</li>
-</ul>
-<p>代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span></span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">"hello"</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>Thread方式 </p>
-<ul>
-<li>可以通过继承Thread类来创建线程 </li>
-<li>通过start方法来启动线程的run方法</li>
-</ul>
-<p>代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">"hello"</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">new</span> ThreadDemo1().start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>Runable方式：</p>
-<ul>
-<li>可以通过实现Runnable接口来创建线程 </li>
-<li>实现Runnable的对象必须包装在Thread类里面，才可以启动 </li>
-<li>通过start方法来启动线程的run方法</li>
-</ul>
-<p>代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span></span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">"hello"</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> ThreadDemo2()).start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+            <p>TCP采用三次握手来建立一个连接</p>
+<h3 id="位码"><a href="#位码" class="headerlink" title="位码"></a>位码</h3><p>SYN(synchronous建立联机)<br>ACK(acknowledgement 确认)<br>PSH(push传送)</p>
         </div>
         
-        <div class="level is-size-7 is-uppercase">
+        
+        <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a>
+                <a class="button is-size-7 is-light" href="/2020/02/11/Tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/#more">阅读更多</a>
                 </div>
             </div>
         </div>
         
         
-        
     </div>
 </div>
 
 
 
-<div class="card">
-    <div class="card-content">
-        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
-        <div class="buttons is-centered">
-            
-        </div>
-    </div>
-</div>
 
 
 
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%BA%8C-1/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Java多线程(二)</span>
-            </a>
-        </div>
-        
-        
-    </div>
-</div>
 
 
 </div>
@@ -257,7 +192,7 @@
 
 
 
-<div class="column is-4-tablet is-3-desktop is-3-widescreen  has-order-1 column-left ">
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
     
         
 <div class="card widget">
@@ -388,7 +323,7 @@
 </div>
     
     
-         <div class="column-right-shadow  ">
+         <div class="column-right-shadow is-hidden-widescreen ">
         
             <div class="card widget">
     <div class="card-content">
@@ -550,6 +485,172 @@
 </div>
 
                 
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/11/Tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tcp 三次握手">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-11T13:25:00.000Z">2020-02-11</time></div>
+                    <a href="/2020/02/11/Tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tcp 三次握手</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/04/Java%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6Executor/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Java并发框架Executor">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T11:39:00.000Z">2020-02-04</time></div>
+                    <a href="/2020/02/04/Java%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6Executor/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Java并发框架Executor</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/03/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%B8%89%EF%BC%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Java多线程(三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-03T08:48:00.000Z">2020-02-03</time></div>
+                    <a href="/2020/02/03/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%B8%89%EF%BC%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Java多线程(三）</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%BA%8C-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Java多线程(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-01T14:27:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%BA%8C-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Java多线程(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(1)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Java多线程(一)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-01T03:10:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(1)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Java多线程(一)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/TCP/">
+                        <span class="tag">TCP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                        <span class="tag">多线程</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+                 
             </div>
         </div>
     </section>
@@ -559,7 +660,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Java多线程(一)" height="28">
+                    <img src="/images/logo.svg" alt="Hexo" height="28">
                 
                 </a>
                 <p class="is-size-7">
