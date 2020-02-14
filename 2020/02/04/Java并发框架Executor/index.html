@@ -180,9 +180,9 @@
 
 <h3 id="ExecutorService"><a href="#ExecutorService" class="headerlink" title="ExecutorService"></a>ExecutorService</h3><p>ExecutorService继承了Executor,是线程池服务<br>ExecutorService中的方法：</p>
 <ul>
-<li>Future<T> submit(Callable<T> task)方法：调用submit时会得到一个Future对象用来得到结果或者取消任务</li>
+<li>Future<T> submit(Callable<T> task)方法：调用submit时会得到一个Future对象用来得到结果或者取消任务</T></T></li>
 <li>Future&lt;?&gt; submit(Runnable task)方法：得到Future对象，但是get方法在完成的时候返回指定的result对象</li>
-<li>Future<T> submit(Runnable task, T result)方法：得到Future对象，get方法在完成的时候返回指定的result对象</li>
+<li>Future<T> submit(Runnable task, T result)方法：得到Future对象，get方法在完成的时候返回指定的result对象</T></li>
 <li>void shutdown()方法 使用完一个线程池时，可以调用，启动线程池的关闭序列。完成已经提交的任务但不在接受新的任务</li>
 </ul>
 <h3 id="Executors"><a href="#Executors" class="headerlink" title="Executors"></a>Executors</h3><p>Executors类中有许多静态工厂方法，用来构造线程池。<br>Executors.newCachedThreadPool/newFixedThreadPool 创建线程池<br>这两个方法返回的是实现ExecutorService接口的ThreadPoolExecutor</p>
