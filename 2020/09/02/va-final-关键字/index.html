@@ -7,16 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>标签: 多线程 - Hexo</title>
+<title>Java final 关键字 - Hexo</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
+    <meta name="description" content="final 修饰变量时有无 static 的区别定义为 static 时表示该变量只会被初始化一次">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java final 关键字">
+<meta property="og:url" content="http://yoursite.com/2020/09/02/va-final-%E5%85%B3%E9%94%AE%E5%AD%97/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="final 修饰变量时有无 static 的区别定义为 static 时表示该变量只会被初始化一次">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-09-02T14:54:00.000Z">
+<meta property="article:modified_time" content="2020-09-02T15:04:45.948Z">
 <meta property="article:author" content="cola289">
+<meta property="article:tag" content="Java 基础">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -70,13 +75,13 @@
 
 <link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="is-3-column">
+<body class="is-2-column">
     <nav class="navbar navbar-main">
     <div class="container">
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Hexo" height="28">
+                <img src="/images/logo.svg" alt="Java final 关键字" height="28">
             
             </a>
         </div>
@@ -125,232 +130,96 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+                <div class="column is-8-tablet is-9-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-09-02T14:54:00.000Z">2020-09-02</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 285 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java final 关键字
+            
+        </h1>
+        <div class="content">
+            <h3 id="final-修饰变量时有无-static-的区别"><a href="#final-修饰变量时有无-static-的区别" class="headerlink" title="final 修饰变量时有无 static 的区别"></a>final 修饰变量时有无 static 的区别</h3><p><strong>定义为 static 时表示该变量只会被初始化一次</strong></p>
+<a id="more"></a>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">finalTest</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Random random = <span class="hljs-keyword">new</span> Random();<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> i = random.nextInt(<span class="hljs-number">20</span>);<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> j = random.nextInt(<span class="hljs-number">20</span>);<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        finalTest f1 = <span class="hljs-keyword">new</span> finalTest();<br>        finalTest f2 = <span class="hljs-keyword">new</span> finalTest();<br>        System.out.println(f1.i == f2.i);<br>        System.out.println(f2.j == f2.j);<br>    &#125;<br><br>&#125;<br><span class="hljs-comment">/*输出<br>false<br>true<br>*/</span><br></code></pre></td></tr></table></figure>
+
+
+<hr>
+<h3 id="基本类型-final-使数值不变，对于对象引用，final-使引用恒定不变，但是引用指定的对象确可以改变"><a href="#基本类型-final-使数值不变，对于对象引用，final-使引用恒定不变，但是引用指定的对象确可以改变" class="headerlink" title="基本类型 final 使数值不变，对于对象引用，final 使引用恒定不变，但是引用指定的对象确可以改变"></a>基本类型 final 使数值不变，对于对象引用，final 使引用恒定不变，但是引用指定的对象确可以改变</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">finalTest</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span>[] a = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]&#123;<span class="hljs-number">2</span>,<span class="hljs-number">31</span>,<span class="hljs-number">1</span>&#125;;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; a.length; i++) &#123;<br>            System.out.print(<span class="hljs-string">"a[i] = "</span> + a[i] + <span class="hljs-string">" "</span>);<br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; a.length; i++) &#123;<br>            a[i] += <span class="hljs-number">1</span>;<br>        &#125;<br>        System.out.println();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; a.length; i++) &#123;<br>            System.out.print(<span class="hljs-string">"a[i] = "</span> + a[i]+ <span class="hljs-string">" "</span>) ;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/*输出<br>a[i] = 2 a[i] = 31 a[i] = 1 <br>a[i] = 3 a[i] = 32 a[i] = 2 <br>*/</span><br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="final-作用于类的成员变量时，必须通过构造器或者在定义时赋值，编译器可以将该常量值带入任何可能用到它的地方"><a href="#final-作用于类的成员变量时，必须通过构造器或者在定义时赋值，编译器可以将该常量值带入任何可能用到它的地方" class="headerlink" title="final 作用于类的成员变量时，必须通过构造器或者在定义时赋值，编译器可以将该常量值带入任何可能用到它的地方"></a>final 作用于类的成员变量时，必须通过构造器或者在定义时赋值，编译器可以将该常量值带入任何可能用到它的地方</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">finalTest</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>       String a = <span class="hljs-string">"123"</span>;<br>       <span class="hljs-keyword">final</span> String b = <span class="hljs-string">"12"</span>;<br>       String c = <span class="hljs-string">"12"</span>;<br>       String d = b + <span class="hljs-string">"3"</span>;<br>       String e = c + <span class="hljs-string">"3"</span>;<br>        System.out.println(a == d);<br>        System.out.println(a == e);<br>    &#125;<br><br>&#125;<br><span class="hljs-comment">/*输出<br>true<br>false<br>*/</span><br></code></pre></td></tr></table></figure>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java-%E5%9F%BA%E7%A1%80/" rel="tag">Java 基础</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
     <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">多线程</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-04T11:39:00.000Z">2020-02-04</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 分钟 读完 (大约 964 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
             
-                <a class="has-link-black-ter" href="/2020/02/04/Java%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6Executor/">Java并发框架Executor</a>
-            
-        </h1>
-        <div class="content">
-            <p>从JDK5开始引入Executor框架，在每次使用new创建线程会导致代价很大，而使用使用框架可以使线程重复利用，程序员无需关心线程池执行任务的过程，只需要吧任务提交即可。</p>
         </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/02/04/Java%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6Executor/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
     </div>
 </div>
 
 
 
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-03T08:48:00.000Z">2020-02-03</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 1042 个字)
-                </span>
-                
-                
-            </div>
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/05/03/ava%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">
+                <span class="level-item">Java类加载机制</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/02/03/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%B8%89%EF%BC%89/">Java多线程(三）</a>
-            
-        </h1>
-        <div class="content">
-            <h3 id="一-Java多线程信息共享"><a href="#一-Java多线程信息共享" class="headerlink" title="一 Java多线程信息共享"></a>一 Java多线程信息共享</h3><h4 id="1-实现信息共享的方式"><a href="#1-实现信息共享的方式" class="headerlink" title="1 实现信息共享的方式"></a>1 实现信息共享的方式</h4><p>通过共享变量在多个线程中共享消息</p>
-<ul>
-<li>static变量，对应继承Thread类的线程只能通过这种方式 </li>
-<li>同一个Runnable类的成员变量</li></ul>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/02/03/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%B8%89%EF%BC%89/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
         
     </div>
 </div>
 
 
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-01T14:27:00.000Z">2020-02-01</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 544 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%BA%8C-1/">Java多线程(二)</a>
-            
-        </h1>
-        <div class="content">
-            <h3 id="一-Java多线程的规则"><a href="#一-Java多线程的规则" class="headerlink" title="一 Java多线程的规则"></a>一 Java多线程的规则</h3><h4 id="第一条规则："><a href="#第一条规则：" class="headerlink" title="第一条规则："></a>第一条规则：</h4><p><strong>调用run方法，来启动run方法，将会是串行运行</strong></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%BA%8C-1/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-01T03:10:00.000Z">2020-02-01</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 374 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(1)/">Java多线程(一)</a>
-            
-        </h1>
-        <div class="content">
-            <h3 id="一-进程和线程的定义和区别"><a href="#一-进程和线程的定义和区别" class="headerlink" title="一 进程和线程的定义和区别"></a>一 进程和线程的定义和区别</h3><p>进程： 每个独立执行的任务就是一个进程<br>线程：一个程序可以包括多个子任务，可窜/并行，每个子任务<br>可以称为一个线程，线程是进程的一部分。</p>
-<ul>
-<li>多线程vs多进程<ul>
-<li>线程数据共享</li>
-<li>线程通讯更高效</li>
-<li>线程更清量级，更容易切换</li>
-<li>多个线程更容易管理  </li>
-</ul>
-</li>
-</ul>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/02/01/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B(1)/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 </div>
                 
 
 
 
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+<div class="column is-4-tablet is-3-desktop is-3-widescreen  has-order-1 column-left ">
     
         
 <div class="card widget">
@@ -481,7 +350,7 @@
 </div>
     
     
-         <div class="column-right-shadow is-hidden-widescreen ">
+         <div class="column-right-shadow  ">
         
             <div class="card widget">
     <div class="card-content">
@@ -711,240 +580,6 @@
 </div>
 
                 
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        <div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2020/09/02/va-final-%E5%85%B3%E9%94%AE%E5%AD%97/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Java final 关键字">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T14:54:00.000Z">2020-09-02</time></div>
-                    <a href="/2020/09/02/va-final-%E5%85%B3%E9%94%AE%E5%AD%97/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Java final 关键字</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/05/03/ava%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Java类加载机制">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-03T12:15:00.000Z">2020-05-03</time></div>
-                    <a href="/2020/05/03/ava%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Java类加载机制</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/03/16/edis%E4%BA%8B%E5%8A%A1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis事务">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-16T09:24:00.000Z">2020-03-16</time></div>
-                    <a href="/2020/03/16/edis%E4%BA%8B%E5%8A%A1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis事务</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/02/14/spring-boot%E4%B8%AD%E4%BD%BF%E7%94%A8JSR-303/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spring boot中使用JSR-303">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-14T14:49:00.000Z">2020-02-14</time></div>
-                    <a href="/2020/02/14/spring-boot%E4%B8%AD%E4%BD%BF%E7%94%A8JSR-303/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spring boot中使用JSR-303</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/02/11/Tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tcp 三次握手">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-11T13:25:00.000Z">2020-02-11</time></div>
-                    <a href="/2020/02/11/Tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tcp 三次握手</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            归档
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/09/">
-                <span class="level-start">
-                    <span class="level-item">九月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/05/">
-                <span class="level-start">
-                    <span class="level-item">五月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/03/">
-                <span class="level-start">
-                    <span class="level-item">三月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/02/">
-                <span class="level-start">
-                    <span class="level-item">二月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">6</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/JVM/">
-                        <span class="tag">JVM</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Java-%E5%9F%BA%E7%A1%80/">
-                        <span class="tag">Java 基础</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Redis/">
-                        <span class="tag">Redis</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/TCP/">
-                        <span class="tag">TCP</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/spring-boot/">
-                        <span class="tag">spring boot</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E4%BA%8B%E5%8A%A1/">
-                        <span class="tag">事务</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
-                        <span class="tag">多线程</span>
-                        <span class="tag is-grey">4</span>
-                    </a>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
-    
-</div>
-
-                 
             </div>
         </div>
     </section>
@@ -954,7 +589,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Hexo" height="28">
+                    <img src="/images/logo.svg" alt="Java final 关键字" height="28">
                 
                 </a>
                 <p class="is-size-7">
