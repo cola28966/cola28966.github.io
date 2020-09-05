@@ -10,16 +10,16 @@
 <title>Redis ( 一) 哈希 - Hexo</title>
 
 
-    <meta name="description" content="哈希简介在 Redis 中，哈希类型是指键值本身又是一个键值对结构  常用命令 设置值 12127.0.0.1:6379&gt; hset user:1 name &quot;Bob&quot;(integer) 1  将 user:1 中 name 字段设置为 Bob ,如果 name 第一次赋值会返回 1，否则返回 0 1234127.0.0.1:6379&gt; hsetnx user:1 name &quot;Tom&quot;">
+    <meta name="description" content="哈希简介在 Redis 中，哈希类型是指键值本身又是一个键值对结构">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis ( 一) 哈希">
 <meta property="og:url" content="http://yoursite.com/2020/09/05/edis-%E4%B8%80-%E5%93%88%E5%B8%8C/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="哈希简介在 Redis 中，哈希类型是指键值本身又是一个键值对结构  常用命令 设置值 12127.0.0.1:6379&gt; hset user:1 name &quot;Bob&quot;(integer) 1  将 user:1 中 name 字段设置为 Bob ,如果 name 第一次赋值会返回 1，否则返回 0 1234127.0.0.1:6379&gt; hsetnx user:1 name &quot;Tom&quot;">
+<meta property="og:description" content="哈希简介在 Redis 中，哈希类型是指键值本身又是一个键值对结构">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
 <meta property="article:published_time" content="2020-09-05T14:48:00.000Z">
-<meta property="article:modified_time" content="2020-09-05T14:52:06.802Z">
+<meta property="article:modified_time" content="2020-09-05T15:00:06.440Z">
 <meta property="article:author" content="cola289">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
@@ -147,7 +147,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 578 个字)
+                    4 分钟 读完 (大约 579 个字)
                 </span>
                 
                 
@@ -161,6 +161,7 @@
         </h1>
         <div class="content">
             <h3 id="哈希简介"><a href="#哈希简介" class="headerlink" title="哈希简介"></a>哈希简介</h3><p>在 <code>Redis</code> 中，哈希类型是指键值本身又是一个键值对结构</p>
+<a id="more"></a>
 <hr>
 <h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ol>
 <li><p>设置值</p>
@@ -169,7 +170,7 @@
 <p>将 <code>user:1</code> 中 <code>name</code> 字段设置为 <code>Bob</code> ,如果 <code>name</code> 第一次赋值会返回 <code>1</code>，否则返回 <code>0</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hsetnx user:<span class="hljs-number">1</span> name <span class="hljs-string">"Tom"</span><br>(integer) <span class="hljs-number">0</span><br><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hget user:<span class="hljs-number">1</span> name<br><span class="hljs-string">"Bob"</span><br></code></pre></td></tr></table></figure>
 
-<p>字段不存在时才设置值 <code>hsetnx</code> 命令</p>
+<p>字段不存在时才设置值 <code>hsetnx</code> 命令  </p>
 </li>
 <li><p>获得值</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hget user:<span class="hljs-number">1</span> name<br><span class="hljs-string">"Bob"</span><br></code></pre></td></tr></table></figure>
@@ -179,13 +180,10 @@
 <li><p>批量设置和获取值</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hmset user:<span class="hljs-number">2</span> name <span class="hljs-string">"Jack"</span> age <span class="hljs-number">22</span> <br>OK<br><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hmget user:<span class="hljs-number">2</span> name age<br><span class="hljs-number">1</span>) <span class="hljs-string">"Jack"</span><br><span class="hljs-number">2</span>) <span class="hljs-string">"22</span><br></code></pre></td></tr></table></figure>
 
-<p>批量设置和获取 <code>user:1</code> 中 <code>name</code> 字段 和 <code>age</code> 字段的值</p>
+<p>批量设置和获取 <code>user:1</code> 中 <code>name</code> 字段 和 <code>age</code> 字段的值  </p>
 </li>
 <li><p>获得所有的 <code>keys</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hkeys user:<span class="hljs-number">2</span><br><span class="hljs-number">1</span>) <span class="hljs-string">"name"</span><br><span class="hljs-number">2</span>) <span class="hljs-string">"age"</span><br></code></pre></td></tr></table></figure>
-</li>
-<li><p>获得所有的 <code>value</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hvals user:<span class="hljs-number">2</span><br><span class="hljs-number">1</span>) <span class="hljs-string">"Jack"</span><br><span class="hljs-number">2</span>) <span class="hljs-string">"22"</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">   <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hkeys user:<span class="hljs-number">2</span><br>   <span class="hljs-number">1</span>) <span class="hljs-string">"name"</span><br>   <span class="hljs-number">2</span>) <span class="hljs-string">"age"</span><br>   ```  <br>  <br><span class="hljs-number">5</span>. 获得所有的 `value`<br><br>   ```java<br>   <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hvals user:<span class="hljs-number">2</span><br>   <span class="hljs-number">1</span>) <span class="hljs-string">"Jack"</span><br>   <span class="hljs-number">2</span>) <span class="hljs-string">"22"</span><br></code></pre></td></tr></table></figure>
 </li>
 <li><p>获得所有的 <code>keys</code> 和 <code>value</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hgetall user:<span class="hljs-number">2</span><br><span class="hljs-number">1</span>) <span class="hljs-string">"name"</span><br><span class="hljs-number">2</span>) <span class="hljs-string">"Jack"</span><br><span class="hljs-number">3</span>) <span class="hljs-string">"age"</span><br><span class="hljs-number">4</span>) <span class="hljs-string">"22"</span><br></code></pre></td></tr></table></figure>
@@ -196,12 +194,12 @@
 <p>获取 <code>user:2</code> 的长度</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hstrlen user:<span class="hljs-number">2</span> age<br>(integer) <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
 
-<p>获取 <code>user:2</code>中 <code>age</code> 字段的长度</p>
+<p>获取 <code>user:2</code>中 <code>age</code> 字段的长度  </p>
 </li>
 <li><p>删除</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hdel user:<span class="hljs-number">2</span> sex<br>(integer) <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
 
-<p>删除  <code>user:2</code>中 <code>sex&#39;</code>字段, 删除成功返回   <code>1</code>，否则返回 <code>0</code></p>
+<p>删除  <code>user:2</code>中 <code>sex&#39;</code>字段, 删除成功返回   <code>1</code>，否则返回 <code>0</code>  </p>
 </li>
 <li><p>增加某个键的值</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hincrby user:<span class="hljs-number">2</span> age <span class="hljs-number">2</span><br>(integer) <span class="hljs-number">24</span><br></code></pre></td></tr></table></figure>
@@ -209,7 +207,7 @@
 <p>将  <code>user:2</code>中 <code>age&#39;</code>字段的大小增加 <code>2</code>, 返回增加后的长度</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hincrbyfloat user:<span class="hljs-number">2</span> age <span class="hljs-number">1.3</span><br><span class="hljs-string">"25.3"</span><br></code></pre></td></tr></table></figure>
 
-<p>将  <code>user:2</code>中 <code>age&#39;</code>字段的大小增加 <code>1.3</code>, 返回增加后的长度</p>
+<p>将  <code>user:2</code>中 <code>age&#39;</code>字段的大小增加 <code>1.3</code>, 返回增加后的长度  </p>
 </li>
 </ol>
 <hr>
