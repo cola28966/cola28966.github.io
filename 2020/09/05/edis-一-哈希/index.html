@@ -7,16 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>标签: 事务 - Hexo</title>
+<title>Redis ( 一) 哈希 - Hexo</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/%E4%BA%8B%E5%8A%A1/index.html">
+    <meta name="description" content="哈希简介在 Redis 中，哈希类型是指键值本身又是一个键值对结构  常用命令 设置值 12127.0.0.1:6379&gt; hset user:1 name &quot;Bob&quot;(integer) 1  将 user:1 中 name 字段设置为 Bob ,如果 name 第一次赋值会返回 1，否则返回 0 1234127.0.0.1:6379&gt; hsetnx user:1 name &quot;Tom&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis ( 一) 哈希">
+<meta property="og:url" content="http://yoursite.com/2020/09/05/edis-%E4%B8%80-%E5%93%88%E5%B8%8C/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="哈希简介在 Redis 中，哈希类型是指键值本身又是一个键值对结构  常用命令 设置值 12127.0.0.1:6379&gt; hset user:1 name &quot;Bob&quot;(integer) 1  将 user:1 中 name 字段设置为 Bob ,如果 name 第一次赋值会返回 1，否则返回 0 1234127.0.0.1:6379&gt; hsetnx user:1 name &quot;Tom&quot;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-09-05T14:48:00.000Z">
+<meta property="article:modified_time" content="2020-09-05T14:52:06.802Z">
 <meta property="article:author" content="cola289">
+<meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -70,13 +75,13 @@
 
 <link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="is-3-column">
+<body class="is-2-column">
     <nav class="navbar navbar-main">
     <div class="container">
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Hexo" height="28">
+                <img src="/images/logo.svg" alt="Redis ( 一) 哈希" height="28">
             
             </a>
         </div>
@@ -125,31 +130,24 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">事务</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    
+                <div class="column is-8-tablet is-9-desktop is-9-widescreen has-order-2 column-main">
 <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-16T09:24:00.000Z">2020-03-16</time>
+                <time class="level-item has-text-grey" datetime="2020-09-05T14:48:00.000Z">2020-09-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 854 个字)
+                    4 分钟 读完 (大约 578 个字)
                 </span>
                 
                 
@@ -158,25 +156,103 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/03/16/edis%E4%BA%8B%E5%8A%A1/">Redis事务</a>
+                Redis ( 一) 哈希
             
         </h1>
         <div class="content">
-            <h3 id="事务的实现"><a href="#事务的实现" class="headerlink" title="事务的实现"></a>事务的实现</h3><p>一个事务从开始到结束会经历以下三个阶段：</p>
+            <h3 id="哈希简介"><a href="#哈希简介" class="headerlink" title="哈希简介"></a>哈希简介</h3><p>在 <code>Redis</code> 中，哈希类型是指键值本身又是一个键值对结构</p>
+<hr>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ol>
+<li><p>设置值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hset user:<span class="hljs-number">1</span> name <span class="hljs-string">"Bob"</span><br>(integer) <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>将 <code>user:1</code> 中 <code>name</code> 字段设置为 <code>Bob</code> ,如果 <code>name</code> 第一次赋值会返回 <code>1</code>，否则返回 <code>0</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hsetnx user:<span class="hljs-number">1</span> name <span class="hljs-string">"Tom"</span><br>(integer) <span class="hljs-number">0</span><br><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hget user:<span class="hljs-number">1</span> name<br><span class="hljs-string">"Bob"</span><br></code></pre></td></tr></table></figure>
+
+<p>字段不存在时才设置值 <code>hsetnx</code> 命令</p>
+</li>
+<li><p>获得值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hget user:<span class="hljs-number">1</span> name<br><span class="hljs-string">"Bob"</span><br></code></pre></td></tr></table></figure>
+
+<p>获得 <code>user:1</code> 中 <code>name</code> 字段的值</p>
+</li>
+<li><p>批量设置和获取值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hmset user:<span class="hljs-number">2</span> name <span class="hljs-string">"Jack"</span> age <span class="hljs-number">22</span> <br>OK<br><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hmget user:<span class="hljs-number">2</span> name age<br><span class="hljs-number">1</span>) <span class="hljs-string">"Jack"</span><br><span class="hljs-number">2</span>) <span class="hljs-string">"22</span><br></code></pre></td></tr></table></figure>
+
+<p>批量设置和获取 <code>user:1</code> 中 <code>name</code> 字段 和 <code>age</code> 字段的值</p>
+</li>
+<li><p>获得所有的 <code>keys</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hkeys user:<span class="hljs-number">2</span><br><span class="hljs-number">1</span>) <span class="hljs-string">"name"</span><br><span class="hljs-number">2</span>) <span class="hljs-string">"age"</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>获得所有的 <code>value</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hvals user:<span class="hljs-number">2</span><br><span class="hljs-number">1</span>) <span class="hljs-string">"Jack"</span><br><span class="hljs-number">2</span>) <span class="hljs-string">"22"</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>获得所有的 <code>keys</code> 和 <code>value</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hgetall user:<span class="hljs-number">2</span><br><span class="hljs-number">1</span>) <span class="hljs-string">"name"</span><br><span class="hljs-number">2</span>) <span class="hljs-string">"Jack"</span><br><span class="hljs-number">3</span>) <span class="hljs-string">"age"</span><br><span class="hljs-number">4</span>) <span class="hljs-string">"22"</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>获得哈希或者值的长度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hlen user:<span class="hljs-number">2</span><br>(integer) <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p>获取 <code>user:2</code> 的长度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hstrlen user:<span class="hljs-number">2</span> age<br>(integer) <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p>获取 <code>user:2</code>中 <code>age</code> 字段的长度</p>
+</li>
+<li><p>删除</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hdel user:<span class="hljs-number">2</span> sex<br>(integer) <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p>删除  <code>user:2</code>中 <code>sex&#39;</code>字段, 删除成功返回   <code>1</code>，否则返回 <code>0</code></p>
+</li>
+<li><p>增加某个键的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hincrby user:<span class="hljs-number">2</span> age <span class="hljs-number">2</span><br>(integer) <span class="hljs-number">24</span><br></code></pre></td></tr></table></figure>
+
+<p>将  <code>user:2</code>中 <code>age&#39;</code>字段的大小增加 <code>2</code>, 返回增加后的长度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; hincrbyfloat user:<span class="hljs-number">2</span> age <span class="hljs-number">1.3</span><br><span class="hljs-string">"25.3"</span><br></code></pre></td></tr></table></figure>
+
+<p>将  <code>user:2</code>中 <code>age&#39;</code>字段的大小增加 <code>1.3</code>, 返回增加后的长度</p>
+</li>
+</ol>
+<hr>
+<h3 id="典型的使用场景"><a href="#典型的使用场景" class="headerlink" title="典型的使用场景"></a>典型的使用场景</h3><p>与关系型数据库的区别：</p>
 <ol>
-<li>事务开始</li>
-<li>命令入队</li>
-<li>事务执行</li></ol>
+<li><p>关系型数据库是结构化的，若添加新的列，会影响到所有的行，而哈希类型是稀疏的，每个键可以有不同的哈希数据</p>
+</li>
+<li><p>关系型数据库可以支持复杂的查询</p>
+</li>
+</ol>
+<p>假如一个<code>user</code>对象有 <code>name</code> 、<code>age</code> 和 <code>gender</code> 三个字段可以选择如下三种方式存储：</p>
+<ol>
+<li>每个字段设置一个字符串如 <code>user:1:name</code></li>
+<li>将 user 序列化成字符串存储</li>
+<li>存储在哈希中，每个字段做为一个 <code>key</code></li>
+</ol>
+<p>三种存储方式的区别:</p>
+<ol>
+<li><p>常规字符串</p>
+<p>优点：每个键都可以单独设置过期时间</p>
+<p>缺点：键占有大量内存，信息内聚性差</p>
+</li>
+<li><p>序列化字符串 (适合做为缓存)</p>
+<p>优点：编程简单</p>
+<p>缺点：全量更新 （反序列化 -&gt;  更新 -&gt; 序列化）</p>
+</li>
+<li><p>哈希类型 (适合做为长期存储)</p>
+<p>优点：每个键都可以单独更新</p>
+<p>缺点：如果没有控制好编码，会消耗更多内存</p>
+</li>
+</ol>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/03/16/edis%E4%BA%8B%E5%8A%A1/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Redis/" rel="tag">Redis</a>
                 </div>
             </div>
         </div>
+        
         
         
     </div>
@@ -184,9 +260,30 @@
 
 
 
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+        </div>
+    </div>
+</div>
 
 
 
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/09/02/va-final-%E5%85%B3%E9%94%AE%E5%AD%97/">
+                <span class="level-item">Java final 关键字</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
 
 
 </div>
@@ -195,7 +292,7 @@
 
 
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+<div class="column is-4-tablet is-3-desktop is-3-widescreen  has-order-1 column-left ">
     
         
 <div class="card widget">
@@ -334,7 +431,7 @@
 </div>
     
     
-         <div class="column-right-shadow is-hidden-widescreen ">
+         <div class="column-right-shadow  ">
         
             <div class="card widget">
     <div class="card-content">
@@ -564,240 +661,6 @@
 </div>
 
                 
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        <div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2020/09/05/edis-%E4%B8%80-%E5%93%88%E5%B8%8C/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis ( 一) 哈希">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-05T14:48:00.000Z">2020-09-05</time></div>
-                    <a href="/2020/09/05/edis-%E4%B8%80-%E5%93%88%E5%B8%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis ( 一) 哈希</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/09/02/va-final-%E5%85%B3%E9%94%AE%E5%AD%97/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Java final 关键字">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T14:54:00.000Z">2020-09-02</time></div>
-                    <a href="/2020/09/02/va-final-%E5%85%B3%E9%94%AE%E5%AD%97/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Java final 关键字</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/05/03/ava%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Java类加载机制">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-03T12:15:00.000Z">2020-05-03</time></div>
-                    <a href="/2020/05/03/ava%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Java类加载机制</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/03/16/edis%E4%BA%8B%E5%8A%A1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis事务">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-16T09:24:00.000Z">2020-03-16</time></div>
-                    <a href="/2020/03/16/edis%E4%BA%8B%E5%8A%A1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis事务</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/02/14/spring-boot%E4%B8%AD%E4%BD%BF%E7%94%A8JSR-303/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spring boot中使用JSR-303">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-14T14:49:00.000Z">2020-02-14</time></div>
-                    <a href="/2020/02/14/spring-boot%E4%B8%AD%E4%BD%BF%E7%94%A8JSR-303/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spring boot中使用JSR-303</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            归档
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/09/">
-                <span class="level-start">
-                    <span class="level-item">九月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">2</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/05/">
-                <span class="level-start">
-                    <span class="level-item">五月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/03/">
-                <span class="level-start">
-                    <span class="level-item">三月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/02/">
-                <span class="level-start">
-                    <span class="level-item">二月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">6</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/JVM/">
-                        <span class="tag">JVM</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Java-%E5%9F%BA%E7%A1%80/">
-                        <span class="tag">Java 基础</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Redis/">
-                        <span class="tag">Redis</span>
-                        <span class="tag is-grey">2</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/TCP/">
-                        <span class="tag">TCP</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/spring-boot/">
-                        <span class="tag">spring boot</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E4%BA%8B%E5%8A%A1/">
-                        <span class="tag">事务</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
-                        <span class="tag">多线程</span>
-                        <span class="tag is-grey">4</span>
-                    </a>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
-    
-</div>
-
-                 
             </div>
         </div>
     </section>
@@ -807,7 +670,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Hexo" height="28">
+                    <img src="/images/logo.svg" alt="Redis ( 一) 哈希" height="28">
                 
                 </a>
                 <p class="is-size-7">
