@@ -10,16 +10,16 @@
 <title>Redis (四) 有序集合 - Hexo</title>
 
 
-    <meta name="description" content="有序集合简介 有序集合保留了集合元素不能重复的特点  有序集合会给每个元素设置一个分数，并以此作为排序的依据  有序集合不能包含相同的元素，但是不同元素的分数可以相同">
+    <meta name="description" content="有序集合简介 有序集合保留了集合元素不能重复的特点 有序集合会给每个元素设置一个分数，并以此作为排序的依据 有序集合不能包含相同的元素，但是不同元素的分数可以相同">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis (四) 有序集合">
 <meta property="og:url" content="http://yoursite.com/2020/09/06/edis-%E5%9B%9B-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="有序集合简介 有序集合保留了集合元素不能重复的特点  有序集合会给每个元素设置一个分数，并以此作为排序的依据  有序集合不能包含相同的元素，但是不同元素的分数可以相同">
+<meta property="og:description" content="有序集合简介 有序集合保留了集合元素不能重复的特点 有序集合会给每个元素设置一个分数，并以此作为排序的依据 有序集合不能包含相同的元素，但是不同元素的分数可以相同">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
 <meta property="article:published_time" content="2020-09-06T09:25:00.000Z">
-<meta property="article:modified_time" content="2020-09-06T09:26:17.618Z">
+<meta property="article:modified_time" content="2020-09-06T09:31:44.243Z">
 <meta property="article:author" content="cola289">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
@@ -161,13 +161,13 @@
         </h1>
         <div class="content">
             <h2 id="有序集合简介"><a href="#有序集合简介" class="headerlink" title="有序集合简介"></a>有序集合简介</h2><ul>
-<li><p>有序集合保留了集合元素不能重复的特点</p>
+<li>有序集合保留了集合元素不能重复的特点</li>
+<li>有序集合会给每个元素设置一个分数，并以此作为排序的依据</li>
+<li>有序集合不能包含相同的元素，但是不同元素的分数可以相同<a id="more"></a>
+
 </li>
-<li><p>有序集合会给每个元素设置一个分数，并以此作为排序的依据</p>
-</li>
-<li><p>有序集合不能包含相同的元素，但是不同元素的分数可以相同</p>
-<a id="more"></a>
-<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2></li>
+</ul>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><ul>
 <li><p>添加元素</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">zadd scores <span class="hljs-number">90</span> aaa <span class="hljs-number">70</span> bbb <span class="hljs-number">30</span> ccc<br>(integer) <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
 
