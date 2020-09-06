@@ -133,6 +133,92 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-09-06T11:44:00.000Z">2020-09-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 204 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/09/06/edis-%E4%BA%94-%E7%AE%A1%E7%90%86-Redis/">Redis (五) 管理 Redis</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><ul>
+<li><p>返回所选择数据库中 <code>key</code> 的个数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; dbsize<br>(integer) <span class="hljs-number">8</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>清空数据库</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>[<span class="hljs-number">1</span>]&gt; flushdb<br>OK<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看 <code>key</code> 的数据结构</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; type nums<br>list<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>修改 <code>key</code> 的名字</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; <span class="hljs-function">renamenx myset <span class="hljs-title">mynewset</span><br><span class="hljs-params">(integer)</span> 1<br>127.0.0.1:6379&gt; keys *<br>1) "set2"<br>2) "scores"<br>3) "user:2"<br>4) "nums"<br>5) "set3"<br>6) "mynewset"<br>7) "set1"<br>8) "user:1"</span><br></code></pre></td></tr></table></figure>
+
+<p>当 <code>myset</code> 存在的时候，将其名字修改为 <code>mynewset</code></p>
+</li>
+</ul>
+<ul>
+<li><p>删除 <code>key</code></p>
+<ul>
+<li><p>阻塞删除</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; set test <span class="hljs-number">123</span><br>OK<br><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; <span class="hljs-function">del <span class="hljs-title">test</span><br><span class="hljs-params">(integer)</span> 1<br>127.0.0.1:6379&gt; keys *<br>1) "set2"<br>2) "scores"<br>3) "user:2"<br>4) "nums"<br>5) "set3"<br>6) "mynewset"<br>7) "set1"<br>8) "user:1"</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>非阻塞删除</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; set test <span class="hljs-number">123</span><br>OK<br><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; <span class="hljs-function">unlink <span class="hljs-title">test</span><br><span class="hljs-params">(integer)</span> 1<br>127.0.0.1:6379&gt; keys *<br>1) "set2"<br>2) "scores"<br>3) "user:2"<br>4) "nums"<br>5) "set3"<br>6) "mynewset"<br>7) "set1"<br>8) "user:1"</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><code>Redis</code> 性能测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">redis-benchmark -c <span class="hljs-number">5</span> -n <span class="hljs-number">100</span> -r <span class="hljs-number">1000</span><br></code></pre></td></tr></table></figure>
+
+<p>-c 表示多少个客户端</p>
+<p>-n 表示请求的次数</p>
+<p>-r 表示生成的 <code>key</code> 后面不随机的位数 <code>1000</code>表示 <code>3</code> 位</p>
+</li>
+<li><p>遍历的方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt; scan <span class="hljs-number">0</span><br><span class="hljs-number">1</span>) <span class="hljs-string">"832"</span><br><span class="hljs-number">2</span>)  <span class="hljs-number">1</span>) <span class="hljs-string">"key:000000000025"</span><br>    <span class="hljs-number">2</span>) <span class="hljs-string">"key:000000000763"</span><br>    <span class="hljs-number">3</span>) <span class="hljs-string">"key:000000000587"</span><br>    <span class="hljs-number">4</span>) <span class="hljs-string">"myset:000000000564"</span><br>    <span class="hljs-number">5</span>) <span class="hljs-string">"key:000000000888"</span><br>    <span class="hljs-number">6</span>) <span class="hljs-string">"key:000000000641"</span><br>    <span class="hljs-number">7</span>) <span class="hljs-string">"key:000000000000"</span><br>    <span class="hljs-number">8</span>) <span class="hljs-string">"key:000000000339"</span><br>    <span class="hljs-number">9</span>) <span class="hljs-string">"key:000000000929"</span><br>   <span class="hljs-number">10</span>) <span class="hljs-string">"key:000000000128"</span><br>   <span class="hljs-number">11</span>) <span class="hljs-string">"key:000000000183"</span><br>   <span class="hljs-number">12</span>) <span class="hljs-string">"myset:000000000563"</span><br></code></pre></td></tr></table></figure>
+
+<p>从 <code>0</code> 开始遍历 返回的 <code>832</code> 为下次开始遍历的游标</p>
+</li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-09-06T09:25:00.000Z">2020-09-06</time>
                 
                 <div class="level-item">
@@ -593,55 +679,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-04T11:39:00.000Z">2020-02-04</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 分钟 读完 (大约 964 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/02/04/Java%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6Executor/">Java并发框架Executor</a>
-            
-        </h1>
-        <div class="content">
-            <p>从JDK5开始引入Executor框架，在每次使用new创建线程会导致代价很大，而使用使用框架可以使线程重复利用，程序员无需关心线程池执行任务的过程，只需要吧任务提交即可。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/02/04/Java%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6Executor/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -706,7 +743,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            13
+                            14
                         </p>
                     </a>
                 </div>
@@ -788,7 +825,7 @@
                 <span class="level-item">Redis</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a></li>
             </ul>
@@ -813,6 +850,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/09/06/edis-%E4%BA%94-%E7%AE%A1%E7%90%86-Redis/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (五) 管理 Redis">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T11:44:00.000Z">2020-09-06</time></div>
+                    <a href="/2020/09/06/edis-%E4%BA%94-%E7%AE%A1%E7%90%86-Redis/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (五) 管理 Redis</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -890,25 +946,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/09/02/va-final-%E5%85%B3%E9%94%AE%E5%AD%97/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Java final 关键字">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T14:54:00.000Z">2020-09-02</time></div>
-                    <a href="/2020/09/02/va-final-%E5%85%B3%E9%94%AE%E5%AD%97/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Java final 关键字</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
         
@@ -926,7 +963,7 @@
                     <span class="level-item">九月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -994,7 +1031,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Redis/">
                         <span class="tag">Redis</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1051,6 +1088,25 @@
         
         <article class="media">
             
+            <a href="/2020/09/06/edis-%E4%BA%94-%E7%AE%A1%E7%90%86-Redis/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (五) 管理 Redis">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T11:44:00.000Z">2020-09-06</time></div>
+                    <a href="/2020/09/06/edis-%E4%BA%94-%E7%AE%A1%E7%90%86-Redis/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (五) 管理 Redis</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/09/06/edis-%E5%9B%9B-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (四) 有序集合">
@@ -1125,25 +1181,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/09/02/va-final-%E5%85%B3%E9%94%AE%E5%AD%97/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Java final 关键字">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T14:54:00.000Z">2020-09-02</time></div>
-                    <a href="/2020/09/02/va-final-%E5%85%B3%E9%94%AE%E5%AD%97/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Java final 关键字</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -1161,7 +1198,7 @@
                     <span class="level-item">九月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -1229,7 +1266,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Redis/">
                         <span class="tag">Redis</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
