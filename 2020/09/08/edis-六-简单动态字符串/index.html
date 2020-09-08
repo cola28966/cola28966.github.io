@@ -7,21 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Java并发框架Executor - Hexo</title>
+<title>Redis (六) 简单动态字符串 - Hexo</title>
 
 
-    <meta name="description" content="从JDK5开始引入Executor框架，在每次使用new创建线程会导致代价很大，而使用使用框架可以使线程重复利用，程序员无需关心线程池执行任务的过程，只需要吧任务提交即可。">
+    <meta name="description" content="定义 SImple Dynamic String，是 Redis 内部自定义的一种数据类型  在 Redis 数据库内部，包含字符串的键值对在底层都是由 SDS 实现  SDC 还被用于缓冲区的实现，如 AOF 缓冲区、客户端中的输入缓冲区   C 原生字符串的劣势 获取长度的复杂度高   内存重分配十分频繁 几乎每次修改 C 字符串，程序就要对保存这个字符串的数组重新分配一次内存空间    不能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java并发框架Executor">
-<meta property="og:url" content="http://yoursite.com/2020/02/04/Java%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6Executor/index.html">
+<meta property="og:title" content="Redis (六) 简单动态字符串">
+<meta property="og:url" content="http://yoursite.com/2020/09/08/edis-%E5%85%AD-%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="从JDK5开始引入Executor框架，在每次使用new创建线程会导致代价很大，而使用使用框架可以使线程重复利用，程序员无需关心线程池执行任务的过程，只需要吧任务提交即可。">
+<meta property="og:description" content="定义 SImple Dynamic String，是 Redis 内部自定义的一种数据类型  在 Redis 数据库内部，包含字符串的键值对在底层都是由 SDS 实现  SDC 还被用于缓冲区的实现，如 AOF 缓冲区、客户端中的输入缓冲区   C 原生字符串的劣势 获取长度的复杂度高   内存重分配十分频繁 几乎每次修改 C 字符串，程序就要对保存这个字符串的数组重新分配一次内存空间    不能">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
-<meta property="article:published_time" content="2020-02-04T11:39:00.000Z">
-<meta property="article:modified_time" content="2020-02-04T14:19:44.307Z">
+<meta property="article:published_time" content="2020-09-08T15:46:00.000Z">
+<meta property="article:modified_time" content="2020-09-08T15:47:26.321Z">
 <meta property="article:author" content="cola289">
-<meta property="article:tag" content="多线程">
+<meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -81,7 +81,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Java并发框架Executor" height="28">
+                <img src="/images/logo.svg" alt="Redis (六) 简单动态字符串" height="28">
             
             </a>
         </div>
@@ -137,13 +137,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-04T11:39:00.000Z">2020-02-04</time>
+                <time class="level-item has-text-grey" datetime="2020-09-08T15:46:00.000Z">2020-09-08</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 964 个字)
+                    5 分钟 读完 (大约 797 个字)
                 </span>
                 
                 
@@ -152,48 +156,83 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Java并发框架Executor
+                Redis (六) 简单动态字符串
             
         </h1>
         <div class="content">
-            <p>从JDK5开始引入Executor框架，在每次使用new创建线程会导致代价很大，而使用使用框架可以使线程重复利用，程序员无需关心线程池执行任务的过程，只需要吧任务提交即可。</p>
-<a id="more"></a>
-
-<p>首先需要了解Executor框架中几个比较重要的类和接口</p>
-<h3 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h3><p>Callable是一个接口，只声明了一个call方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Callable</span>&lt;<span class="hljs-title">V</span>&gt; </span>&#123;<br>    <span class="hljs-function">V <span class="hljs-title">call</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>Callable和Runable类型，只不过Callable有返回值，返回类型和参数类型一致。   </p>
-<h3 id="Future"><a href="#Future" class="headerlink" title="Future"></a><strong>Future</strong></h3><p>Future对具体提交的Callable任务执行结果进行取消，查询是否完成，获取结果。可以通过get方法获取执行结果，该方法会阻塞直到任务返回结果。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Future</span>&lt;<span class="hljs-title">V</span>&gt; </span>&#123;<br>        <span class="hljs-function">V <span class="hljs-title">get</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException, ExecutionException</span>;<br>        <span class="hljs-function">V <span class="hljs-title">get</span><span class="hljs-params">(<span class="hljs-keyword">long</span> timeout, TimeUnit unit)</span><br>                <span class="hljs-keyword">throws</span> InterruptedException, ExecutionException, TimeoutException</span>;<br>        <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">cancel</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> mayInterruptIfRunning)</span></span>;<br>        <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isCancelled</span><span class="hljs-params">()</span></span>;<br>        <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isDone</span><span class="hljs-params">()</span></span>;<br><br>    &#125;<br></code></pre></td></tr></table></figure>
-
-<p>Future中的五个方法</p>
-<ul>
-<li>V get()方法: 获取结果，这个方法会阻塞，直到计算完成</li>
-<li>V get(long timeout, TimeUnit unit)方法：获取结果，这个方法会阻塞，直到计算完成或者超过了指定的时间。如果不成功，第二个方法会抛出TimeoutException异常。</li>
-<li>boolean cancel(boolean mayInterruptIfRunning)方法：尝试取消这个方法的运行。如果任务已经开始，并且mayInterruptIfRunning参数为true，它就会被中断。如果成功执行了取消操作，则返回true。</li>
-<li>boolean isCancelled()方法：如果任务在完成之前被取消，则返回true</li>
-<li>boolean isDone()方法：如果任务结束，无论是正常完成、中途取消，还是发生异常，则返回true。</li>
+            <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ul>
+<li><p>SImple Dynamic String，是 <code>Redis</code> 内部自定义的一种数据类型</p>
+</li>
+<li><p>在 <code>Redis</code> 数据库内部，包含字符串的键值对在底层都是由 <code>SDS</code> 实现</p>
+</li>
+<li><p><code>SDC</code> 还被用于缓冲区的实现，如 <code>AOF</code> 缓冲区、客户端中的输入缓冲区</p>
+</li>
 </ul>
-<h3 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h3><p>Executor是一个接口，它将任务的提交与任务的执行分离开来，定义了一个接收Runnable对象的方法execute。Executor是Executor框架中最基础的一个接口，类似于集合中的Collection接口。  </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Executor</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">(Runnable command)</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="ExecutorService"><a href="#ExecutorService" class="headerlink" title="ExecutorService"></a>ExecutorService</h3><p>ExecutorService继承了Executor,是线程池服务<br>ExecutorService中的方法：</p>
-<ul>
-<li>Future<T> submit(Callable<T> task)方法：调用submit时会得到一个Future对象用来得到结果或者取消任务</T></T></li>
-<li>Future&lt;?&gt; submit(Runnable task)方法：得到Future对象，但是get方法在完成的时候返回指定的result对象</li>
-<li>Future<T> submit(Runnable task, T result)方法：得到Future对象，get方法在完成的时候返回指定的result对象</T></li>
-<li>void shutdown()方法 使用完一个线程池时，可以调用，启动线程池的关闭序列。完成已经提交的任务但不在接受新的任务</li>
+<h2 id="C-原生字符串的劣势"><a href="#C-原生字符串的劣势" class="headerlink" title="C 原生字符串的劣势"></a>C 原生字符串的劣势</h2><ul>
+<li>获取长度的复杂度高</li>
 </ul>
-<h3 id="Executors"><a href="#Executors" class="headerlink" title="Executors"></a>Executors</h3><p>Executors类中有许多静态工厂方法，用来构造线程池。<br>Executors.newCachedThreadPool/newFixedThreadPool 创建线程池<br>这两个方法返回的是实现ExecutorService接口的ThreadPoolExecutor</p>
-<p><strong>newCachedThreadPool</strong>方法构造一个线程池是，会立即执行各个任务，空闲进程会保留60秒，如果有空线程可用，就使用空线程执行任务，如果没有，则创建一个。<br><strong>newFixedThreadPool</strong>会创建一个固定大小的线程池，空线程会一直保留。<br>如果线程生成周期很短，或者大量时间都在阻塞，应使用newCachedThreadPool创建线程池。<br>如果线程工作量大而且并不阻塞，<br>为了得到最优的运行速度，并发线程数应该等于处理器内核数，应使用newFixedThreadPool</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>使用连接池时所用的工作</p>
+<ul>
+<li><p>内存重分配十分频繁</p>
+<p>几乎每次修改 <code>C</code> 字符串，程序就要对保存这个字符串的数组重新分配一次内存空间</p>
+</li>
+</ul>
+<ul>
+<li><p>不能保证二进制安全</p>
+<p>因为 <code>C</code> 字符串以空字符结尾，所有不适合保存二进制数据（内部可能携带空字符）</p>
+</li>
+</ul>
+<h2 id="Redis-3-2-之前的实现方案"><a href="#Redis-3-2-之前的实现方案" class="headerlink" title="Redis 3.2 之前的实现方案"></a>Redis 3.2 之前的实现方案</h2><ul>
+<li><p>结构体定义</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sdshdr</span> &#123;</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> len; <span class="hljs-comment">// 已使用的字节数量</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> <span class="hljs-built_in">free</span>; <span class="hljs-comment">// 未使用的字节数量</span><br>    <span class="hljs-keyword">char</span> buf[]; <span class="hljs-comment">//保存字符串数组</span><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>优点</p>
 <ol>
-<li>调用Executors类中的静态方法 newCachedThreadPool或者newFixedThreadPool</li>
-<li>调用submit提交Runnable或者Callable对象</li>
-<li>保存好返回的Future对象，以便得到结果或者取消任务</li>
-<li>当不想再提交任何任务时，调用shutdown</li>
+<li>降低了获取字符串长度的复杂度</li>
 </ol>
+</li>
+</ul>
+<ol start="2">
+<li><p>减少了修改带来的内存分配次数</p>
+<p><strong>通过空间预分配和惰性空间释放策略，优化了修改字符串所需要的内存分配次数</strong></p>
+</li>
+</ol>
+<ol start="3">
+<li><p>保证了二进制数据存储的安全性</p>
+<p><strong>SDS 不会对 buf 中的数据做任何限制，因为它采用 len 属性来判定字符串是否结束</strong></p>
+<p><strong>SDS 依然以空字符结尾，这样其内部可以很方便的重用一部分 C 字符串库中的函数</strong></p>
+</li>
+</ol>
+<ul>
+<li><p>优化的点</p>
+<ul>
+<li><p>预分配</p>
+<p><strong>用于优化增长操作，即不仅为其分配存放字符串所需空间，还会为其分配额外的未使用的空间</strong></p>
+<p><strong>若修改后 SDS 的长度小于 1MB，则分配的未使用空间与 len 相同，否则分配的未使用空间为 1MB</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>惰性删除</p>
+<p><strong>用于优化缩短操作，当缩短 SDS 时程序不立刻重新分配内存，而是使用 free 属性记录这些字符</strong></p>
+</li>
+</ul>
+<h2 id="Redis-3-2-改进的实现方案"><a href="#Redis-3-2-改进的实现方案" class="headerlink" title="Redis 3.2 改进的实现方案"></a>Redis 3.2 改进的实现方案</h2><ul>
+<li><p>结构体</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">attribute__</span> ((__<span class="hljs-title">packed__</span>)) <span class="hljs-title">sdshdr5</span> &#123;</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> flags; <span class="hljs-comment">// 低3位存储类型，高5位存储长度</span><br>    <span class="hljs-keyword">char</span> buf[]; <span class="hljs-comment">// 存放实际的内容</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">attribute__</span> ((__<span class="hljs-title">packed__</span>)) <span class="hljs-title">sdshdr8</span> &#123;</span><br>    <span class="hljs-keyword">uint8_t</span> len; <span class="hljs-comment">//使用的字节数量</span><br>    <span class="hljs-keyword">uint8_t</span> alloc; <span class="hljs-comment">// 全部的字节数量</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> flags; <span class="hljs-comment">// 低3位存储类型，高5位存储长度</span><br>    <span class="hljs-keyword">char</span> buf[]; <span class="hljs-comment">// 存放实际的内容</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">attribute__</span> ((__<span class="hljs-title">packed__</span>)) <span class="hljs-title">sdshdr16</span> &#123;</span><br>    <span class="hljs-keyword">uint16_t</span> len;<span class="hljs-comment">//使用的字节数量</span><br>    <span class="hljs-keyword">uint16_t</span> alloc; <span class="hljs-comment">// 全部的字节数量</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> flags;  <span class="hljs-comment">// 存放实际的内容</span><br>    <span class="hljs-keyword">char</span> buf[];<span class="hljs-comment">// 存放实际的内容</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">attribute__</span> ((__<span class="hljs-title">packed__</span>)) <span class="hljs-title">sdshdr32</span> &#123;</span><br>    <span class="hljs-keyword">uint32_t</span> len; <span class="hljs-comment">//使用的字节数量</span><br>    <span class="hljs-keyword">uint32_t</span> alloc; <span class="hljs-comment">// 全部的字节数量</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> flags;  <span class="hljs-comment">// 存放实际的内容</span><br>    <span class="hljs-keyword">char</span> buf[];<span class="hljs-comment">// 存放实际的内容</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">attribute__</span> ((__<span class="hljs-title">packed__</span>)) <span class="hljs-title">sdshdr64</span> &#123;</span><br>    <span class="hljs-keyword">uint64_t</span> len; <span class="hljs-comment">//使用的字节数量</span><br>    <span class="hljs-keyword">uint64_t</span> alloc; <span class="hljs-comment">// 全部的字节数量</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> flags;  <span class="hljs-comment">// 存放实际的内容</span><br>    <span class="hljs-keyword">char</span> buf[];<span class="hljs-comment">// 存放实际的内容</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>优化的点</p>
+<ul>
+<li><p>packed 修饰</p>
+<p><strong>结构体默认会按其所有变量大小的最小公倍数做字节对齐</strong></p>
+<p><strong>使用 packed 修饰后，则变为按照 1 字节对齐，可以进一步节约内存</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>通过字符串长度选择相应的结构体</li>
+</ul>
 
         </div>
         
@@ -201,7 +240,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a>
+                    <a class="has-link-grey -link" href="/tags/Redis/" rel="tag">Redis</a>
                 </div>
             </div>
         </div>
@@ -227,17 +266,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/11/Tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Tcp 三次握手</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/03/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%B8%89%EF%BC%89/">
-                <span class="level-item">Java多线程(三）</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/09/06/edis-%E4%BA%94-%E7%AE%A1%E7%90%86-Redis/">
+                <span class="level-item">Redis (五) 管理 Redis</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -630,7 +662,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Java并发框架Executor" height="28">
+                    <img src="/images/logo.svg" alt="Redis (六) 简单动态字符串" height="28">
                 
                 </a>
                 <p class="is-size-7">
