@@ -7,23 +7,20 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>标签 - Hexo</title>
+<title>Redis (八）底层数据结构-字典 - Hexo</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+    <meta name="description" content="定义字典，又称为符合表、关联数组或映射，是一种用于保存键值对的抽象数据 应用 Redis 数据库的底层采用字典的实现 字典也是集合、哈希类型的底层实现之一 Redis 的哨兵模式、是以字典存储所有主从节点的  数据结构​">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis (八）底层数据结构-字典">
+<meta property="og:url" content="http://yoursite.com/2020/12/24/edis-%E5%85%AB%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AD%97%E5%85%B8/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="定义字典，又称为符合表、关联数组或映射，是一种用于保存键值对的抽象数据 应用 Redis 数据库的底层采用字典的实现 字典也是集合、哈希类型的底层实现之一 Redis 的哨兵模式、是以字典存储所有主从节点的  数据结构​">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-12-24T14:27:21.000Z">
+<meta property="article:modified_time" content="2020-12-24T14:27:45.803Z">
 <meta property="article:author" content="cola289">
-<meta property="article:tag" content="多线程">
-<meta property="article:tag" content="JVM">
-<meta property="article:tag" content="TCP">
-<meta property="article:tag" content="Redis">
-<meta property="article:tag" content="Java 基础">
-<meta property="article:tag" content="事务">
-<meta property="article:tag" content="spring boot">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -77,13 +74,13 @@
 
 <link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="is-3-column">
+<body class="is-2-column">
     <nav class="navbar navbar-main">
     <div class="container">
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Hexo" height="28">
+                <img src="/images/logo.svg" alt="Redis (八）底层数据结构-字典" height="28">
             
             </a>
         </div>
@@ -100,7 +97,7 @@
                 <a class="navbar-item"
                 href="/categories">分类</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/tags">标签</a>
                 
                 <a class="navbar-item"
@@ -132,73 +129,135 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
+                <div class="column is-8-tablet is-9-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-12-24T14:27:21.000Z">2020-12-24</time>
                 
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/JVM/">
-                        <span class="tag">JVM</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
                 
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Java-%E5%9F%BA%E7%A1%80/">
-                        <span class="tag">Java 基础</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 分钟 读完 (大约 1043 个字)
+                </span>
                 
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Redis/">
-                        <span class="tag">Redis</span>
-                        <span class="tag is-grey">8</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/TCP/">
-                        <span class="tag">TCP</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/spring-boot/">
-                        <span class="tag">spring boot</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E4%BA%8B%E5%8A%A1/">
-                        <span class="tag">事务</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
-                        <span class="tag">多线程</span>
-                        <span class="tag is-grey">4</span>
-                    </a>
-                </div>
                 
             </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Redis (八）底层数据结构-字典
+            
+        </h1>
+        <div class="content">
+            <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>字典，又称为符合表、关联数组或映射，是一种用于保存键值对的抽象数据</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><ol>
+<li><code>Redis</code> 数据库的底层采用字典的实现</li>
+<li>字典也是集合、哈希类型的底层实现之一</li>
+<li><code>Redis</code> 的哨兵模式、是以字典存储所有主从节点的</li>
+</ol>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>​                                                                                                                                                                                                                                                                                                  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">dict</span> &#123;</span><br>    dictType * type; <span class="hljs-comment">// 字典类型，每个 dictType 保存不同操作特定类型键值对的函数</span><br>    <span class="hljs-keyword">void</span> *prvdata; <span class="hljs-comment">// 保存需要传给特定类型的可选参数</span><br>    dictht ht[<span class="hljs-number">2</span>]; <span class="hljs-comment">// 哈希表数组</span><br>    <span class="hljs-keyword">long</span> rehashidx; <span class="hljs-comment">// rehash 标识，存储 rehash 的偏移量，默认为 -1</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> iterators; <span class="hljs-comment">// 记录绑定在此字典上的，正在运行的迭代器的数量</span><br>&#125; dict;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">dictht</span> &#123;</span><br>    dicEntry ** table;<br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> <span class="hljs-built_in">size</span>;<br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> sizemask;<span class="hljs-comment">// 掩码</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> used;<br>&#125; dictht;<br><br> <span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">dictEntry</span> &#123;</span><br>     <span class="hljs-keyword">void</span> *key;<br>     <span class="hljs-keyword">union</span> &#123;<br>         <span class="hljs-keyword">void</span> *val;<br>         <span class="hljs-keyword">unit64_t</span> u64;<br>         <span class="hljs-keyword">int64_t</span> s64;<br>         <span class="hljs-keyword">double</span> d;<br>     &#125; v;<br>     <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">dictEntry</span> *<span class="hljs-title">next</span>;</span><br> &#125; dictEntry;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="哈希算法"><a href="#哈希算法" class="headerlink" title="哈希算法"></a>哈希算法</h3><ol>
+<li><p>使用哈希函数计算键的哈希值</p>
+<p>hash = dict-&gt;type-&gt;hashFunction(key);</p>
+</li>
+<li><p>使用哈希值和掩码，计算索引值</p>
+<p>index = hash &amp; dict-&gt;ht[x].sizemask;</p>
+</li>
+</ol>
+<p>采用在链表中进行头插法解决哈希冲突</p>
+<h3 id="REHASH"><a href="#REHASH" class="headerlink" title="REHASH"></a>REHASH</h3><p>当哈希表中保存的键值对数量过多或过少时，需要对哈希表的大小进行扩展或收缩操作，在 <code>Redis</code> 中，扩展和收缩哈希表是通过 <code>REHASH</code> 实现的，执行 <code>REHASH</code> 的大致步骤如下：</p>
+<ol>
+<li><p>为字典的 <code>ht[1]</code> 哈希表分配内存空间</p>
+<p>如果执行的是扩展操作，则 <code>ht[1]</code> 的大小为第 1 个 大于等于 <code>ht[0].used * 2</code> 的 2^n;</p>
+<p>如果执行的是收缩操作，则 <code>ht[1]</code>  的大小为第 1 个 大于等于 <code>ht[0].used</code> 的 2^n</p>
+</li>
+<li><p>将存储在 <code>ht[0]</code> 中的数据迁移到 <code>ht[1]</code> 上</p>
+<p>重新计算键的哈希值和索引值，然后将键值对放置到 <code>ht[1]</code> 哈希表的指定位置上；</p>
+</li>
+<li><p>将字典的 <code>ht[1]</code> 哈希表晋升为默认哈希表</p>
+<p>迁移完成后，清空 <code>ht[0]</code>，再交换 <code>ht[0]</code> 和 <code>t[1]</code> 的值，为下一次 <code>REHASH</code>  做准备。</p>
+</li>
+</ol>
+<h4 id="REHASH-的触发条件"><a href="#REHASH-的触发条件" class="headerlink" title="REHASH 的触发条件"></a>REHASH 的触发条件</h4><p>当满足以下任何一个条件时，程序会自动开始对哈希表执行扩展操作：</p>
+<ol>
+<li>服务器目前没有执行 <code>bgsave</code> 或 <code>bgrewriteof</code> 命令，并且哈希表的负载因子大于等于 1</li>
+<li>服务器目正在执行 <code>bgsave</code> 或 <code>bgrewriteof</code> 命令，并且哈希表的负载因子大于等于 5</li>
+</ol>
+<p><code>负载因子</code>是用来描述哈希表当前被填充的程度。计算公式是：<code>负载因子=哈希表以保存节点数量 / 哈希表的大小</code></p>
+<p><strong>当哈希表的负载因子小于 0.1 时，程序会自动开始对哈希表进行收缩操作</strong></p>
+<h4 id="REHASH-的详细步骤"><a href="#REHASH-的详细步骤" class="headerlink" title="REHASH 的详细步骤"></a>REHASH 的详细步骤</h4><p>为了避免 <code>REHASH</code> 对服务器性能造成影响，<code>REHASH</code> 操作不是一次性地完成的，而是分多次，渐进式地完成地的。</p>
+<p>渐进式 <code>REHASH</code> 的详细过程如下：</p>
+<ol>
+<li>为 <code>ht[1]</code> 分配空间，让自动2同时持有 <code>ht[0]</code> 和 <code>ht[1]</code> 两个哈希表</li>
+<li>在字典中的索引计数器 <code>rehashidx</code> 设置为 <code>0</code>，表示 <code>REHASH</code> 操作正式开始</li>
+<li>在 <code>REHASH</code> 期间，每次对字典执行添加、删除、修改、查找操作时，程序除了执行指定的操作外，还会顺带将 <code>ht[0]</code> 中位于 <code>rehashidx</code> 上的所有键值对迁移到 <code>ht[1]</code> 中，再将 <code>rehashidx</code> 的值加1</li>
+<li>随着字典不断被访问，最终再某个时刻，<code>ht[0]</code> 上的所有键值对都被迁移到 <code>ht[1]</code> 上，此时程序将 <code>rehashidx</code> 的属性值设置为 <code>-1</code>，标识 <code>REHASH</code> 操作完成</li>
+</ol>
+<h3 id="REHASH-期间的访问"><a href="#REHASH-期间的访问" class="headerlink" title="REHASH 期间的访问"></a>REHASH 期间的访问</h3><p><code>REHSH</code> 期间，字典同时持有两个哈希表，此时的访问将按照如下原则处理：</p>
+<ol>
+<li>新添加的键值对，一律被保存到 <code>ht[1]</code> 中</li>
+<li>删除、修改、查找等其他操作，会在两个哈希表上进行，即程序将先尝试去 <code>ht[0]</code> 中访问要操作的数据，若不存在则在 <code>ht[1]</code> 中访问，再对访问的数据做相应的处理</li>
+</ol>
+
+        </div>
+        
+        
+        
     </div>
-</div></div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/12/24/edis-%E4%B9%9D%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%93%BE%E8%A1%A8/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Redis (九）底层数据结构-链表</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/09/09/edis-%E4%B8%83-%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88/">
+                <span class="level-item">Redis (七) 整数集合</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
 
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+<div class="column is-4-tablet is-3-desktop is-3-widescreen  has-order-1 column-left ">
     
         
 <div class="card widget">
@@ -337,7 +396,7 @@
 </div>
     
     
-         <div class="column-right-shadow is-hidden-widescreen ">
+         <div class="column-right-shadow  ">
         
             <div class="card widget">
     <div class="card-content">
@@ -578,251 +637,6 @@
 </div>
 
                 
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        <div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2020/12/24/edis-%E5%8D%81%E4%BA%8C%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%B7%83%E8%A1%A8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (十二）底层数据结构-跳跃表">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:29:52.000Z">2020-12-24</time></div>
-                    <a href="/2020/12/24/edis-%E5%8D%81%E4%BA%8C%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%B7%83%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (十二）底层数据结构-跳跃表</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/12/24/edis-%E5%8D%81%E4%B8%80%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%BF%AB%E9%80%9F%E5%88%97%E8%A1%A8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (十一）底层数据结构-快速列表">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:29:23.000Z">2020-12-24</time></div>
-                    <a href="/2020/12/24/edis-%E5%8D%81%E4%B8%80%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%BF%AB%E9%80%9F%E5%88%97%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (十一）底层数据结构-快速列表</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/12/24/edis-%E5%8D%81-%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (十) 底层数据结构-压缩列表">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:28:45.000Z">2020-12-24</time></div>
-                    <a href="/2020/12/24/edis-%E5%8D%81-%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (十) 底层数据结构-压缩列表</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/12/24/edis-%E4%B9%9D%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%93%BE%E8%A1%A8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (九）底层数据结构-链表">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:28:11.000Z">2020-12-24</time></div>
-                    <a href="/2020/12/24/edis-%E4%B9%9D%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%93%BE%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (九）底层数据结构-链表</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/12/24/edis-%E5%85%AB%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AD%97%E5%85%B8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (八）底层数据结构-字典">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:27:21.000Z">2020-12-24</time></div>
-                    <a href="/2020/12/24/edis-%E5%85%AB%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AD%97%E5%85%B8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (八）底层数据结构-字典</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            归档
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/12/">
-                <span class="level-start">
-                    <span class="level-item">十二月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">5</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/09/">
-                <span class="level-start">
-                    <span class="level-item">九月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">8</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/05/">
-                <span class="level-start">
-                    <span class="level-item">五月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/03/">
-                <span class="level-start">
-                    <span class="level-item">三月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/02/">
-                <span class="level-start">
-                    <span class="level-item">二月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">6</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/JVM/">
-                        <span class="tag">JVM</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Java-%E5%9F%BA%E7%A1%80/">
-                        <span class="tag">Java 基础</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Redis/">
-                        <span class="tag">Redis</span>
-                        <span class="tag is-grey">8</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/TCP/">
-                        <span class="tag">TCP</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/spring-boot/">
-                        <span class="tag">spring boot</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E4%BA%8B%E5%8A%A1/">
-                        <span class="tag">事务</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
-                        <span class="tag">多线程</span>
-                        <span class="tag is-grey">4</span>
-                    </a>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
-    
-</div>
-
-                 
             </div>
         </div>
     </section>
@@ -832,7 +646,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Hexo" height="28">
+                    <img src="/images/logo.svg" alt="Redis (八）底层数据结构-字典" height="28">
                 
                 </a>
                 <p class="is-size-7">

@@ -154,7 +154,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 401 个字)
+                    3 分钟 读完 (大约 402 个字)
                 </span>
                 
                 
@@ -168,36 +168,16 @@
         </h1>
         <div class="content">
             <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>当一个集合只包含整数值元素，并且这个集合的元素数量不多时，Redis 就会使用整数集合作为集合键的底层实现</p>
-<h2 id="整数集合的实现"><a href="#整数集合的实现" class="headerlink" title="整数集合的实现"></a>整数集合的实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">intset</span> &#123;</span><br>    <span class="hljs-keyword">uint32_t</span> encoding; <span class="hljs-comment">//存储的类型</span><br>    <span class="hljs-keyword">uint32_t</span> length; <span class="hljs-comment">//数组集合包含的元素数量</span><br>    <span class="hljs-keyword">int8_t</span> contents[]; <span class="hljs-comment">//保存的数据从小到大有序排序，并且数组中不包含任何重复项</span><br>&#125; intset;<br></code></pre></td></tr></table></figure>
-
-<h2 id="集合的升级和降级"><a href="#集合的升级和降级" class="headerlink" title="集合的升级和降级"></a>集合的升级和降级</h2><ul>
-<li><p>升级</p>
-<p><strong>当添加的新元素，其类型比现有元素类型都长时，集合需要先升级再添加</strong></p>
-<ol>
-<li>根据新元素的类型，扩展集合底层数组的空间，并为新元素分配空间</li>
-<li>将现有元素都转成与新元素相同的类型，并将其存储在正确的位置上</li>
-<li>将新元素添加到数组之内</li>
-</ol>
-</li>
-</ul>
-<ul>
-<li><p>升级的优点</p>
-<p>让一个整数数组同时支持 <code>int16_t</code> 、<code>int32_t</code>、<code>int64_t</code>，最简单的做法是使用 <code>int64_t</code> ,但这样显然是浪费内存空间的，而升级操作可以尽量节约内存的使用</p>
-</li>
-</ul>
-<ul>
-<li><p>升级的缺点</p>
-<p>每次向集合中添加数据都可能会引起升级，而每次升级都会需要对底层数组中所有的元素进行类型转换，所以向集合中添加新元素的时间复杂度为 O(n)</p>
-</li>
-</ul>
-<ul>
-<li><p>降级</p>
-<p><strong>整数集合不支持降级，一旦对数组进行了升级，编码就会一直保持升级后的状态</strong></p>
-</li>
-</ul>
-
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/09/09/edis-%E4%B8%83-%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
@@ -227,7 +207,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 797 个字)
+                    5 分钟 读完 (大约 798 个字)
                 </span>
                 
                 
@@ -248,74 +228,16 @@
 <li><p><code>SDC</code> 还被用于缓冲区的实现，如 <code>AOF</code> 缓冲区、客户端中的输入缓冲区</p>
 </li>
 </ul>
-<h2 id="C-原生字符串的劣势"><a href="#C-原生字符串的劣势" class="headerlink" title="C 原生字符串的劣势"></a>C 原生字符串的劣势</h2><ul>
-<li>获取长度的复杂度高</li>
-</ul>
-<ul>
-<li><p>内存重分配十分频繁</p>
-<p>几乎每次修改 <code>C</code> 字符串，程序就要对保存这个字符串的数组重新分配一次内存空间</p>
-</li>
-</ul>
-<ul>
-<li><p>不能保证二进制安全</p>
-<p>因为 <code>C</code> 字符串以空字符结尾，所有不适合保存二进制数据（内部可能携带空字符）</p>
-</li>
-</ul>
-<h2 id="Redis-3-2-之前的实现方案"><a href="#Redis-3-2-之前的实现方案" class="headerlink" title="Redis 3.2 之前的实现方案"></a>Redis 3.2 之前的实现方案</h2><ul>
-<li><p>结构体定义</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sdshdr</span> &#123;</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> len; <span class="hljs-comment">// 已使用的字节数量</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> <span class="hljs-built_in">free</span>; <span class="hljs-comment">// 未使用的字节数量</span><br>    <span class="hljs-keyword">char</span> buf[]; <span class="hljs-comment">//保存字符串数组</span><br>&#125;<br></code></pre></td></tr></table></figure>
-</li>
-<li><p>优点</p>
-<ol>
-<li>降低了获取字符串长度的复杂度</li>
-</ol>
-</li>
-</ul>
-<ol start="2">
-<li><p>减少了修改带来的内存分配次数</p>
-<p><strong>通过空间预分配和惰性空间释放策略，优化了修改字符串所需要的内存分配次数</strong></p>
-</li>
-</ol>
-<ol start="3">
-<li><p>保证了二进制数据存储的安全性</p>
-<p><strong>SDS 不会对 buf 中的数据做任何限制，因为它采用 len 属性来判定字符串是否结束</strong></p>
-<p><strong>SDS 依然以空字符结尾，这样其内部可以很方便的重用一部分 C 字符串库中的函数</strong></p>
-</li>
-</ol>
-<ul>
-<li><p>优化的点</p>
-<ul>
-<li><p>预分配</p>
-<p><strong>用于优化增长操作，即不仅为其分配存放字符串所需空间，还会为其分配额外的未使用的空间</strong></p>
-<p><strong>若修改后 SDS 的长度小于 1MB，则分配的未使用空间与 len 相同，否则分配的未使用空间为 1MB</strong></p>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>惰性删除</p>
-<p><strong>用于优化缩短操作，当缩短 SDS 时程序不立刻重新分配内存，而是使用 free 属性记录这些字符</strong></p>
-</li>
-</ul>
-<h2 id="Redis-3-2-改进的实现方案"><a href="#Redis-3-2-改进的实现方案" class="headerlink" title="Redis 3.2 改进的实现方案"></a>Redis 3.2 改进的实现方案</h2><ul>
-<li><p>结构体</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">attribute__</span> ((__<span class="hljs-title">packed__</span>)) <span class="hljs-title">sdshdr5</span> &#123;</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> flags; <span class="hljs-comment">// 低3位存储类型，高5位存储长度</span><br>    <span class="hljs-keyword">char</span> buf[]; <span class="hljs-comment">// 存放实际的内容</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">attribute__</span> ((__<span class="hljs-title">packed__</span>)) <span class="hljs-title">sdshdr8</span> &#123;</span><br>    <span class="hljs-keyword">uint8_t</span> len; <span class="hljs-comment">//使用的字节数量</span><br>    <span class="hljs-keyword">uint8_t</span> alloc; <span class="hljs-comment">// 全部的字节数量</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> flags; <span class="hljs-comment">// 低3位存储类型，高5位存储长度</span><br>    <span class="hljs-keyword">char</span> buf[]; <span class="hljs-comment">// 存放实际的内容</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">attribute__</span> ((__<span class="hljs-title">packed__</span>)) <span class="hljs-title">sdshdr16</span> &#123;</span><br>    <span class="hljs-keyword">uint16_t</span> len;<span class="hljs-comment">//使用的字节数量</span><br>    <span class="hljs-keyword">uint16_t</span> alloc; <span class="hljs-comment">// 全部的字节数量</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> flags;  <span class="hljs-comment">// 存放实际的内容</span><br>    <span class="hljs-keyword">char</span> buf[];<span class="hljs-comment">// 存放实际的内容</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">attribute__</span> ((__<span class="hljs-title">packed__</span>)) <span class="hljs-title">sdshdr32</span> &#123;</span><br>    <span class="hljs-keyword">uint32_t</span> len; <span class="hljs-comment">//使用的字节数量</span><br>    <span class="hljs-keyword">uint32_t</span> alloc; <span class="hljs-comment">// 全部的字节数量</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> flags;  <span class="hljs-comment">// 存放实际的内容</span><br>    <span class="hljs-keyword">char</span> buf[];<span class="hljs-comment">// 存放实际的内容</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">attribute__</span> ((__<span class="hljs-title">packed__</span>)) <span class="hljs-title">sdshdr64</span> &#123;</span><br>    <span class="hljs-keyword">uint64_t</span> len; <span class="hljs-comment">//使用的字节数量</span><br>    <span class="hljs-keyword">uint64_t</span> alloc; <span class="hljs-comment">// 全部的字节数量</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> flags;  <span class="hljs-comment">// 存放实际的内容</span><br>    <span class="hljs-keyword">char</span> buf[];<span class="hljs-comment">// 存放实际的内容</span><br>&#125;;<br></code></pre></td></tr></table></figure>
-</li>
-<li><p>优化的点</p>
-<ul>
-<li><p>packed 修饰</p>
-<p><strong>结构体默认会按其所有变量大小的最小公倍数做字节对齐</strong></p>
-<p><strong>使用 packed 修饰后，则变为按照 1 字节对齐，可以进一步节约内存</strong></p>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>通过字符串长度选择相应的结构体</li>
-</ul>
-
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/09/08/edis-%E5%85%AD-%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
@@ -591,7 +513,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            16
+                            21
                         </p>
                     </a>
                 </div>
@@ -701,18 +623,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/09/edis-%E4%B8%83-%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88/" class="media-left">
+            <a href="/2020/12/24/edis-%E5%8D%81%E4%BA%8C%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%B7%83%E8%A1%A8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (七) 整数集合">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (十二）底层数据结构-跳跃表">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-09T15:17:00.000Z">2020-09-09</time></div>
-                    <a href="/2020/09/09/edis-%E4%B8%83-%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (七) 整数集合</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:29:52.000Z">2020-12-24</time></div>
+                    <a href="/2020/12/24/edis-%E5%8D%81%E4%BA%8C%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%B7%83%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (十二）底层数据结构-跳跃表</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                        
                     </p>
                 </div>
             </div>
@@ -720,18 +642,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/08/edis-%E5%85%AD-%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="media-left">
+            <a href="/2020/12/24/edis-%E5%8D%81%E4%B8%80%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%BF%AB%E9%80%9F%E5%88%97%E8%A1%A8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (六) 简单动态字符串">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (十一）底层数据结构-快速列表">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-08T15:46:00.000Z">2020-09-08</time></div>
-                    <a href="/2020/09/08/edis-%E5%85%AD-%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (六) 简单动态字符串</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:29:23.000Z">2020-12-24</time></div>
+                    <a href="/2020/12/24/edis-%E5%8D%81%E4%B8%80%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%BF%AB%E9%80%9F%E5%88%97%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (十一）底层数据结构-快速列表</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                        
                     </p>
                 </div>
             </div>
@@ -739,18 +661,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/06/edis-%E4%BA%94-%E7%AE%A1%E7%90%86-Redis/" class="media-left">
+            <a href="/2020/12/24/edis-%E5%8D%81-%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (五) 管理 Redis">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (十) 底层数据结构-压缩列表">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T11:44:00.000Z">2020-09-06</time></div>
-                    <a href="/2020/09/06/edis-%E4%BA%94-%E7%AE%A1%E7%90%86-Redis/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (五) 管理 Redis</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:28:45.000Z">2020-12-24</time></div>
+                    <a href="/2020/12/24/edis-%E5%8D%81-%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (十) 底层数据结构-压缩列表</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                        
                     </p>
                 </div>
             </div>
@@ -758,18 +680,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/06/edis-%E5%9B%9B-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88/" class="media-left">
+            <a href="/2020/12/24/edis-%E4%B9%9D%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%93%BE%E8%A1%A8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (四) 有序集合">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (九）底层数据结构-链表">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T09:25:00.000Z">2020-09-06</time></div>
-                    <a href="/2020/09/06/edis-%E5%9B%9B-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (四) 有序集合</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:28:11.000Z">2020-12-24</time></div>
+                    <a href="/2020/12/24/edis-%E4%B9%9D%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%93%BE%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (九）底层数据结构-链表</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                        
                     </p>
                 </div>
             </div>
@@ -777,18 +699,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/06/dis-%E4%B8%89-%E9%9B%86%E5%90%88/" class="media-left">
+            <a href="/2020/12/24/edis-%E5%85%AB%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AD%97%E5%85%B8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (三) 集合">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (八）底层数据结构-字典">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T06:18:00.000Z">2020-09-06</time></div>
-                    <a href="/2020/09/06/dis-%E4%B8%89-%E9%9B%86%E5%90%88/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (三) 集合</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:27:21.000Z">2020-12-24</time></div>
+                    <a href="/2020/12/24/edis-%E5%85%AB%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AD%97%E5%85%B8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (八）底层数据结构-字典</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                        
                     </p>
                 </div>
             </div>
@@ -804,6 +726,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2020/09/">
@@ -936,18 +869,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/09/edis-%E4%B8%83-%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88/" class="media-left">
+            <a href="/2020/12/24/edis-%E5%8D%81%E4%BA%8C%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%B7%83%E8%A1%A8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (七) 整数集合">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (十二）底层数据结构-跳跃表">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-09T15:17:00.000Z">2020-09-09</time></div>
-                    <a href="/2020/09/09/edis-%E4%B8%83-%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (七) 整数集合</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:29:52.000Z">2020-12-24</time></div>
+                    <a href="/2020/12/24/edis-%E5%8D%81%E4%BA%8C%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%B7%83%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (十二）底层数据结构-跳跃表</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                        
                     </p>
                 </div>
             </div>
@@ -955,18 +888,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/08/edis-%E5%85%AD-%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="media-left">
+            <a href="/2020/12/24/edis-%E5%8D%81%E4%B8%80%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%BF%AB%E9%80%9F%E5%88%97%E8%A1%A8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (六) 简单动态字符串">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (十一）底层数据结构-快速列表">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-08T15:46:00.000Z">2020-09-08</time></div>
-                    <a href="/2020/09/08/edis-%E5%85%AD-%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (六) 简单动态字符串</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:29:23.000Z">2020-12-24</time></div>
+                    <a href="/2020/12/24/edis-%E5%8D%81%E4%B8%80%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%BF%AB%E9%80%9F%E5%88%97%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (十一）底层数据结构-快速列表</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                        
                     </p>
                 </div>
             </div>
@@ -974,18 +907,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/06/edis-%E4%BA%94-%E7%AE%A1%E7%90%86-Redis/" class="media-left">
+            <a href="/2020/12/24/edis-%E5%8D%81-%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (五) 管理 Redis">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (十) 底层数据结构-压缩列表">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T11:44:00.000Z">2020-09-06</time></div>
-                    <a href="/2020/09/06/edis-%E4%BA%94-%E7%AE%A1%E7%90%86-Redis/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (五) 管理 Redis</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:28:45.000Z">2020-12-24</time></div>
+                    <a href="/2020/12/24/edis-%E5%8D%81-%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (十) 底层数据结构-压缩列表</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                        
                     </p>
                 </div>
             </div>
@@ -993,18 +926,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/06/edis-%E5%9B%9B-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88/" class="media-left">
+            <a href="/2020/12/24/edis-%E4%B9%9D%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%93%BE%E8%A1%A8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (四) 有序集合">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (九）底层数据结构-链表">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T09:25:00.000Z">2020-09-06</time></div>
-                    <a href="/2020/09/06/edis-%E5%9B%9B-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (四) 有序集合</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:28:11.000Z">2020-12-24</time></div>
+                    <a href="/2020/12/24/edis-%E4%B9%9D%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%93%BE%E8%A1%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (九）底层数据结构-链表</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                        
                     </p>
                 </div>
             </div>
@@ -1012,18 +945,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/06/dis-%E4%B8%89-%E9%9B%86%E5%90%88/" class="media-left">
+            <a href="/2020/12/24/edis-%E5%85%AB%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AD%97%E5%85%B8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (三) 集合">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Redis (八）底层数据结构-字典">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T06:18:00.000Z">2020-09-06</time></div>
-                    <a href="/2020/09/06/dis-%E4%B8%89-%E9%9B%86%E5%90%88/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (三) 集合</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-24T14:27:21.000Z">2020-12-24</time></div>
+                    <a href="/2020/12/24/edis-%E5%85%AB%EF%BC%89%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AD%97%E5%85%B8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Redis (八）底层数据结构-字典</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Redis/">Redis</a>
+                        
                     </p>
                 </div>
             </div>
@@ -1039,6 +972,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2020/09/">
